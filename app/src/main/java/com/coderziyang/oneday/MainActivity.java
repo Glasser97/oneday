@@ -9,5 +9,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        //get the DAO Database
+        DaoSession daoSession = ((DaoApplication)getApplication()).getDaoSession();
+        DataDao dataDao = daoSession.getDataDao();
+
+        //然后用这个dataDao下面的方法进行数据库操作
     }
 }
