@@ -2,9 +2,11 @@ package com.coderziyang.oneday;
 
 import android.net.Uri;
 
+import org.greenrobot.greendao.annotation.Convert;
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.Generated;
+import org.greenrobot.greendao.converter.PropertyConverter;
 
 @Entity
 public class Data {
@@ -14,6 +16,7 @@ public class Data {
     private String title;
     private String image;
     private String content;
+
 
     public Data(){}
 
@@ -63,6 +66,10 @@ public class Data {
         return this.image;
     }
 
+    public void setImage(String image) {
+        this.image = image;
+    }
+
     public String getContent() {
         return this.content;
     }
@@ -71,9 +78,7 @@ public class Data {
         this.content = content;
     }
 
-    public void setImage(String image) {
-        this.image = image;
-    }
+    public Uri getImageUri(){ return Uri.parse(this.image); }
 
     public void setImage(Uri img) {
         this.image = img.toString();
