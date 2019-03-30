@@ -19,11 +19,19 @@ public class Data {
 
     @Generated(hash = 1684049343)
     public Data(long dataId, int category, String title, String image,
-            String content) {
+                String content) {
         this.dataId = dataId;
         this.category = category;
         this.title = title;
         this.image = image;
+        this.content = content;
+    }
+    public Data(long dataId, int category, String title, Uri image,
+                String content) {
+        this.dataId = dataId;
+        this.category = category;
+        this.title = title;
+        this.image = image.toString();
         this.content = content;
     }
 
@@ -51,14 +59,8 @@ public class Data {
         this.title = title;
     }
 
-    public Uri getImage() {
-        Uri uri = Uri.parse((String) this.image);
-        return uri;
-    }
-
-    public void setImage(Uri image) {
-        String str = image.toString();
-        this.image = str;
+    public String getImage() {
+        return this.image;
     }
 
     public String getContent() {
@@ -67,6 +69,14 @@ public class Data {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public void setImage(Uri img) {
+        this.image = img.toString();
     }
 
 }
