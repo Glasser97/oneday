@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">oneday</string>
+    <string-array name="category_array">
+        <item>Play</item>
+        <item>Foods</item>
+        <item>Landscape</item>
+        <item>People</item>
+    </string-array>
 </resources>
