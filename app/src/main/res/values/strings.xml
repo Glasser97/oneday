@@ -6,4 +6,7 @@
         <item>Landscape</item>
         <item>People</item>
     </string-array>
+
+    <string name="take_photo">Take A Photo</string>
+    <string name="open_album">Open My Album</string>
 </resources>

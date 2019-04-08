@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <files-path path="Android/data/com.coderziyang.oneday/files/Pictures/" name="images" />
+    <external-path path="Android/data/com.coderziyang.oneday/files/Pictures/" name="images" />
+    <external-files-path path="files/Pictures/" name="images"/>
+    <root-path path="" name="images"/>
+</PreferenceScreen>
