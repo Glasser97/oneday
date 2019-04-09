@@ -1,6 +1,7 @@
 package com.coderziyang.oneday;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
@@ -64,6 +65,13 @@ public class MomentAdapter extends RecyclerView.Adapter<MomentAdapter.MomentView
                 });
             }
         });
+//        holder.itemView.setOnClickListener(new View.OnClickListener(){
+//            @Override
+//            public void onClick(View v){
+//                int position = holder.getAdapterPosition();
+//                Intent intent = new Intent()
+//            }
+//        });
         return holder;
     }
 
