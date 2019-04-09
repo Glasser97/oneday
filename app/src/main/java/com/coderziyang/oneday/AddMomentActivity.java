@@ -64,7 +64,7 @@ public class AddMomentActivity extends AppCompatActivity implements addDialogFra
             final DataDao mDataDao = daoSession.getDataDao();
             final Data inputData=mDataDao.load(inputId);
             Date inputDate =new Date(inputId);
-            SimpleDateFormat sdf=new SimpleDateFormat("dd/mm/yyyy");
+            SimpleDateFormat sdf=new SimpleDateFormat("dd/MM/yyyy");
             imgUri=inputData.getImageUri();
             Glide.with(this).load(inputData.getImageUri()).into(image_display);
             edit_date.setText(sdf.format(inputDate));
@@ -93,7 +93,7 @@ public class AddMomentActivity extends AppCompatActivity implements addDialogFra
             image_display.setImageResource(R.drawable.plus);
             new_data = new Data();
             date = new Date();
-            SimpleDateFormat sdf = new SimpleDateFormat("dd/mm/yyyy");
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
             String date_s = sdf.format(date);
             edit_date.setText(date_s);
             submit_button.setOnClickListener(new View.OnClickListener() {

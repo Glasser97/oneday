@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import org.greenrobot.greendao.database.Database;
 
@@ -70,12 +71,8 @@ public class MomentAdapter extends RecyclerView.Adapter<MomentAdapter.MomentView
         holder.itemView.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                DaoMaster.DevOpenHelper openHelper=new DaoMaster.DevOpenHelper(mContext,"OneDay_DB");
-                Database database=openHelper.getWritableDb();
-                DaoMaster daoMaster=new DaoMaster(database);
-                DataDao dataDao = daoSession.getDataDao();
                 long id = (Long) holder.itemView.getTag();
-                Toast.makeText(mContext,""+id,Toast.LENGTH_LONG).show();
+                //Toast.makeText(mContext,""+id,Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(mContext,DetailActivity.class);
                 intent.putExtra("dataId",id);
                 mContext.startActivity(intent);
@@ -89,7 +86,7 @@ public class MomentAdapter extends RecyclerView.Adapter<MomentAdapter.MomentView
     public void onBindViewHolder(MomentViewHolder holder,int position){
         Data data = mMomentsList.get(position);
         holder.itemView.setTag(data.getDataId());
-        Glide.with(mContext).load(data.getImageUri()).into(holder.momentImg);
+        Glide.with(mContext).load(data.getImageUri()).fitCenter().into(holder.momentImg);
         holder.momentTitle.setText(data.getTitle());
         holder.momentCategory.setText(mContext.getResources().getStringArray(R.array.category_array)[data.getCategory()]);
     }

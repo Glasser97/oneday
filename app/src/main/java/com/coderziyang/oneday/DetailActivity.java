@@ -4,6 +4,8 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -86,13 +88,22 @@ public class DetailActivity extends AppCompatActivity {
                 long resId=result.getLongExtra("dataId2",0);
                 Data data = dataDao.load(resId);
                 Date date =new Date(id);
-                SimpleDateFormat sdf=new SimpleDateFormat("dd/mm/yyyy");
+                SimpleDateFormat sdf=new SimpleDateFormat("dd/MM/yyyy");
                 Glide.with(this).load(data.getImageUri()).into(imageShow);
                 dateShow.setText(sdf.format(date));
                 classShow.setText(category[data.getCategory()]);
                 titleShow.setText(data.getTitle());
                 contentShow.setText(data.getContent());
             }
+        }
+    }
+    @Override
+    public void onBackPressed() {
+        if (MainActivity.instance!=null){
+            MainActivity.instance.finish();
+            Intent intent=new Intent(this,MainActivity.class);
+            startActivity(intent);
+            finish();
         }
     }
 
