@@ -26,7 +26,6 @@ public class addDialogFragment extends DialogFragment {
         super.onCreate(savedInstanceState);
         getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
         View view = inflater.inflate(R.layout.add_dialog, container, false);
-//        mlistener.onDialogChosen(option);
 
         return view;
 
@@ -42,7 +41,7 @@ public class addDialogFragment extends DialogFragment {
             @Override
             public void onClick(View v) {
                 option = 1;
-                Toast.makeText(getActivity(), "take a photo", Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), "take a photo", Toast.LENGTH_SHORT).show();
                 mlistener.onDialogChosen(option);
                 dismiss();
             }
@@ -52,7 +51,7 @@ public class addDialogFragment extends DialogFragment {
             @Override
             public void onClick(View v) {
                 option = 2;
-                Toast.makeText(getActivity(), "album", Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), "album", Toast.LENGTH_SHORT).show();
                 mlistener.onDialogChosen(option);
                 dismiss();
             }
