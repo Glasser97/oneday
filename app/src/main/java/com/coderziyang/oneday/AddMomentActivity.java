@@ -48,26 +48,85 @@ public class AddMomentActivity extends AppCompatActivity implements addDialogFra
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_moment);
-
-        image_display = (ImageView) findViewById(R.id.image_view);
-        image_display.setImageResource(R.drawable.plus);
-        new_data = new Data();
-
         submit_button = (Button) findViewById(R.id.button);
-        category = getResources().getStringArray(R.array.category_array);
         category_spinner = (Spinner) findViewById(R.id.spinner);
         title = (EditText) findViewById(R.id.title);
         content = (EditText) findViewById(R.id.content);
         big_title = (TextView) findViewById(R.id.edit_class);
         edit_date = (TextView) findViewById(R.id.edit_date);
-
-        date = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/mm/yyyy");
-        String date_s = sdf.format(date);
-        edit_date.setText(date_s);
-
+        image_display = (ImageView) findViewById(R.id.image_view);
+        category = getResources().getStringArray(R.array.category_array);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, category);
         category_spinner.setAdapter(adapter);
+        if (getIntent().hasExtra("DataId")){
+            long inputId=getIntent().getLongExtra("DataId",0);
+            DaoSession daoSession = ((DaoApplication)getApplication()).getDaoSession();
+            final DataDao mDataDao = daoSession.getDataDao();
+            final Data inputData=mDataDao.load(inputId);
+            Date inputDate =new Date(inputId);
+            SimpleDateFormat sdf=new SimpleDateFormat("dd/mm/yyyy");
+            imgUri=inputData.getImageUri();
+            Glide.with(this).load(inputData.getImageUri()).into(image_display);
+            edit_date.setText(sdf.format(inputDate));
+            category_spinner.setSelection(inputData.getCategory(),true);
+            title.setText(inputData.getTitle());
+            content.setText(inputData.getContent());
+            submit_button.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v){
+                    String title_s = title.getText().toString();
+                    String content_s = content.getText().toString();
+                    if (title_s.equals("") || content_s.equals("") || imgUri == null) {
+                        Toast.makeText(AddMomentActivity.this, R.string.submit_moment_warning,
+                                Toast.LENGTH_LONG).show();
+                    }else{
+                        new_data=new Data(inputData.getDataId(),category_index,title_s,imgUri,content_s);
+                        mDataDao.update(new_data);
+                        Intent intent2 = new Intent();
+                        intent2.putExtra("dataId2",inputData.getDataId());
+                        AddMomentActivity.this.setResult(RESULT_OK,intent2);
+                        AddMomentActivity.this.finish();
+                    }
+                }
+            });
+        }else{
+            image_display.setImageResource(R.drawable.plus);
+            new_data = new Data();
+            date = new Date();
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/mm/yyyy");
+            String date_s = sdf.format(date);
+            edit_date.setText(date_s);
+            submit_button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    String title_s = title.getText().toString();
+                    String content_s = content.getText().toString();
+
+                    if (title_s.equals("") || content_s.equals("") || imgUri == null) {
+                        Toast.makeText(AddMomentActivity.this, R.string.submit_moment_warning,
+                                Toast.LENGTH_LONG).show();
+                    }else{
+                        new_data.setTitle(title_s);
+                        new_data.setContent(content_s);
+                        new_data.setCategory(category_index);
+                        new_data.setImage(imgUri);
+                        new_data.setDataId(new Date().getTime());
+
+                        DaoSession daoSession = ((DaoApplication)getApplication()).getDaoSession();
+                        DataDao dataDao = daoSession.getDataDao();
+
+                        dataDao.insert(new_data);
+                        if(MainActivity.instance!=null){
+                            MainActivity.instance.finish();
+                        }
+                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
+                }
+            });
+        }
 
         category_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -106,37 +165,8 @@ public class AddMomentActivity extends AppCompatActivity implements addDialogFra
             }
         });
 
-        submit_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-                String title_s = title.getText().toString();
-                String content_s = content.getText().toString();
-
-                if (title_s.equals("") || content_s.equals("") || imgUri == null) {
-                    Toast.makeText(AddMomentActivity.this, R.string.submit_moment_warning,
-                            Toast.LENGTH_LONG).show();
-                }else{
-
-                    new_data.setTitle(title_s);
-                    new_data.setContent(content_s);
-                    new_data.setCategory(category_index);
-                    new_data.setImage(imgUri);
-                    new_data.setDataId(new Date().getTime());
-
-                    DaoSession daoSession = ((DaoApplication)getApplication()).getDaoSession();
-                    DataDao dataDao = daoSession.getDataDao();
-
-                    dataDao.insert(new_data);
-
-                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                    startActivity(intent);
-                }
-            }
-        });
     }
-
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
         if (requestCode == REQUEST_CODE_PICK_IMAGE){
