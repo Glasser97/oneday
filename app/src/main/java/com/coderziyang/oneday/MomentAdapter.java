@@ -2,7 +2,10 @@ package com.coderziyang.oneday;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -10,7 +13,11 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
+import org.greenrobot.greendao.database.Database;
+
 import java.util.List;
+
+import static com.coderziyang.oneday.DaoApplication.daoSession;
 
 public class MomentAdapter extends RecyclerView.Adapter<MomentAdapter.MomentViewHolder> {
     private List<Data> mMomentsList;
@@ -35,13 +42,35 @@ public class MomentAdapter extends RecyclerView.Adapter<MomentAdapter.MomentView
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.moment_layout,parent,false);
         mContext=parent.getContext();
-        MomentViewHolder holder=new MomentViewHolder(view);
+        final MomentViewHolder holder=new MomentViewHolder(view);
+        holder.itemView.setOnCreateContextMenuListener(new View.OnCreateContextMenuListener(){
+            @Override
+            public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+                menu.add(Menu.NONE, 0, 0,"delete").setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        DaoMaster.DevOpenHelper openHelper=new DaoMaster.DevOpenHelper(mContext,"OneDay_DB");
+                        Database database=openHelper.getWritableDb();
+                        DaoMaster daoMaster=new DaoMaster(database);
+                        DataDao dataDao = daoSession.getDataDao();
+                        long id = (Long) holder.itemView.getTag();
+                        dataDao.deleteByKey(id);
+                        int position = holder.getLayoutPosition();
+                        mMomentsList.remove(position);
+                        notifyItemRemoved(position);
+                        notifyItemRangeChanged(0,mMomentsList.size());
+                        return true;
+                    }
+                });
+            }
+        });
         return holder;
     }
 
     @Override
     public void onBindViewHolder(MomentViewHolder holder,int position){
         Data data = mMomentsList.get(position);
+        holder.itemView.setTag(data.getDataId());
         Glide.with(mContext).load(data.getImageUri()).into(holder.momentImg);
         holder.momentTitle.setText(data.getTitle());
         holder.momentCategory.setText(mContext.getResources().getStringArray(R.array.category_array)[data.getCategory()]);
@@ -59,6 +88,12 @@ public class MomentAdapter extends RecyclerView.Adapter<MomentAdapter.MomentView
             mMomentsList.remove(position);
         }
         notifyDataSetChanged();
+    }
+
+    public void addItem(int position, Data data) {
+        mMomentsList.add(position, data);
+        notifyItemInserted(position);//通知演示插入动画
+        notifyItemRangeChanged(position, mMomentsList.size() - position);//通知数据与界面重新绑定
     }
 
 }
