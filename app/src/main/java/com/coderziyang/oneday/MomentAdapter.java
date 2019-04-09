@@ -27,7 +27,7 @@ public class MomentAdapter extends RecyclerView.Adapter<MomentAdapter.MomentView
         }
     }
     public MomentAdapter(List<Data> MomentList){
-        mMomentsList = MomentList;
+        this.mMomentsList = MomentList;
     }
 
     @Override
@@ -51,4 +51,14 @@ public class MomentAdapter extends RecyclerView.Adapter<MomentAdapter.MomentView
     public int getItemCount(){
         return mMomentsList.size();
     }
+
+    public Data getItem(int position){return mMomentsList.get(position);}
+
+    public void remove(int position){
+        if (mMomentsList != null){
+            mMomentsList.remove(position);
+        }
+        notifyDataSetChanged();
+    }
+
 }
