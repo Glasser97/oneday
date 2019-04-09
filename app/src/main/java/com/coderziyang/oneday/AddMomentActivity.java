@@ -28,6 +28,7 @@ public class AddMomentActivity extends AppCompatActivity implements addDialogFra
     ImageView image_display;
     private Uri imgUri = null;
     public final int TAKE_PHOTO_REQUEST = 1, REQUEST_CODE_PICK_IMAGE = 2;
+    public Data new_data;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,12 +50,9 @@ public class AddMomentActivity extends AppCompatActivity implements addDialogFra
                     public void onDialogChosen(int option) {
                             switch (option){
                             case 1:
-                                Log.d("look here!!!!!", "run the first one");
                                 openCamera();
-                                showImage(imgUri, image_display);
                                 break;
                             case 2:
-                                Log.d("look here!!!!!", "run the second one");
                                 getImageFromAlbum();
                                 break;
                         }
@@ -65,13 +63,25 @@ public class AddMomentActivity extends AppCompatActivity implements addDialogFra
     }
 
     @Override
+    protected void onPause(){
+        super.onPause();
+        image_display.setImageResource(R.drawable.plus);
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
         if (requestCode == REQUEST_CODE_PICK_IMAGE){
             if (data != null){
                 imgUri = data.getData();
                 showImage(imgUri, image_display);
             }
+        }else if(requestCode == TAKE_PHOTO_REQUEST){
+            if (data != null){
+                showImage(imgUri, image_display);
+            }
+
         }
+
     }
 
     private File createImageFile() throws IOException {
@@ -82,7 +92,7 @@ public class AddMomentActivity extends AppCompatActivity implements addDialogFra
         }
         File image = File.createTempFile(
                 imgName,         /* prefix */
-                ".jpg",             /* suffix */
+                ".jpg",    /* suffix */
                 pictureDir       /* directory */
         );
         return image;
@@ -90,19 +100,22 @@ public class AddMomentActivity extends AppCompatActivity implements addDialogFra
 
     private void openCamera(){
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        File photofile = null;
-        try{
-            photofile = createImageFile();
-        } catch (IOException e){
-            e.printStackTrace();
-        }
-        if (photofile != null){
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
-                imgUri = Uri.fromFile(photofile);
-            } else {
-                imgUri = FileProvider.getUriForFile(this,"com.coderziyang.oneday.fileprovider", photofile);
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            File photofile = null;
+            try {
+                photofile = createImageFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            if (photofile != null) {
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+                    imgUri = Uri.fromFile(photofile);
+                } else {
+                    imgUri = FileProvider.getUriForFile(this, "com.coderziyang.oneday.fileprovider", photofile);
+                }
             }
         }
+
         intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, imgUri);
         startActivityForResult(intent, TAKE_PHOTO_REQUEST);
@@ -123,15 +136,12 @@ public class AddMomentActivity extends AppCompatActivity implements addDialogFra
 
     @Override
     public void onDialogChosen(int option) {
-        Log.d("look here!!!!!", getString(option));
         switch (option) {
             case 1:
-                Log.d("look here!!!!!", "run the first one");
                 openCamera();
                 showImage(imgUri, image_display);
                 break;
             case 2:
-                Log.d("look here!!!!!", "run the second one");
                 getImageFromAlbum();
                 break;
         }
