@@ -56,17 +56,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //显示数据库中的data
         dataList=dataDao.queryBuilder().orderDesc(DataDao.Properties.DataId).list();
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-        registerForContextMenu(recyclerView);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         adapter = new MomentAdapter(dataList);
         recyclerView.setAdapter(adapter);
-        recyclerView.setOnCreateContextMenuListener(new View.OnCreateContextMenuListener() {
-            @Override
-            public void onCreateContextMenu(ContextMenu contextMenu, View view, ContextMenu.ContextMenuInfo contextMenuInfo) {
-                contextMenu.add(Menu.NONE, 0, 0, R.string.remove);
-            }
-        });
 
         //悬浮小圆球，跳转activity
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -79,22 +72,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
     }
 
-    @Override
-    public boolean onContextItemSelected(MenuItem item) {
-        AdapterView.AdapterContextMenuInfo menuInfo;
-        menuInfo =(AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
-        switch (item.getItemId()) {
-            case 0:
-                //连接到数据库
-                DaoSession daoSession = ((DaoApplication)getApplication()).getDaoSession();
-                DataDao dataDao = daoSession.getDataDao();
-                //连接数据库完成
-                dataDao.delete(adapter.getItem(menuInfo.position));
-                adapter.remove(menuInfo.position);
-                break;
-        }
-        return super.onContextItemSelected(item);
-    }
 
     @Override
     public void onBackPressed() {
