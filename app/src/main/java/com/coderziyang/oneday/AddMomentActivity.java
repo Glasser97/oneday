@@ -23,7 +23,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-public class AddMomentActivity extends AppCompatActivity {
+public class AddMomentActivity extends AppCompatActivity implements addDialogFragment.OnDialogChosenListener{
 
     ImageView image_display;
     private Uri imgUri = null;
@@ -47,30 +47,30 @@ public class AddMomentActivity extends AppCompatActivity {
                 dialogFragment.setOnDialogListener(new addDialogFragment.OnDialogChosenListener() {
                     @Override
                     public void onDialogChosen(int option) {
-                        if (option == 1) {
-                            openCamera();
-                            showImage(imgUri, image_display);
-                        } else if (option == 2) {
-                            getImageFromAlbum();
+                            switch (option){
+                            case 1:
+                                Log.d("look here!!!!!", "run the first one");
+                                openCamera();
+                                showImage(imgUri, image_display);
+                                break;
+                            case 2:
+                                Log.d("look here!!!!!", "run the second one");
+                                getImageFromAlbum();
+                                break;
                         }
-
                     }
                 });
-
-
-//                openCamera();
-//                showImage(imgUri, image_display);
-
             }
         });
-
-
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
-        switch(requestCode){
-            case TAKE_PHOTO_REQUEST:
+        if (requestCode == REQUEST_CODE_PICK_IMAGE){
+            if (data != null){
+                imgUri = data.getData();
+                showImage(imgUri, image_display);
+            }
         }
     }
 
@@ -85,7 +85,6 @@ public class AddMomentActivity extends AppCompatActivity {
                 ".jpg",             /* suffix */
                 pictureDir       /* directory */
         );
-//        imgPath = image.getAbsolutePath();
         return image;
     }
 
@@ -107,7 +106,6 @@ public class AddMomentActivity extends AppCompatActivity {
         intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, imgUri);
         startActivityForResult(intent, TAKE_PHOTO_REQUEST);
-//        Log.d("path!!!!!!!!!!!!!!!", imgUri.toString());
     }
 
     protected void getImageFromAlbum() {
@@ -116,13 +114,28 @@ public class AddMomentActivity extends AppCompatActivity {
         startActivityForResult(intent, REQUEST_CODE_PICK_IMAGE);
     }
 
+
     private void showImage(Uri imageUri, ImageView imageView){
         if(imageUri!=null){
             Glide.with(this).load(imageUri).into(imageView);
         }
     }
 
-
+    @Override
+    public void onDialogChosen(int option) {
+        Log.d("look here!!!!!", getString(option));
+        switch (option) {
+            case 1:
+                Log.d("look here!!!!!", "run the first one");
+                openCamera();
+                showImage(imgUri, image_display);
+                break;
+            case 2:
+                Log.d("look here!!!!!", "run the second one");
+                getImageFromAlbum();
+                break;
+        }
+    }
 }
 
 
