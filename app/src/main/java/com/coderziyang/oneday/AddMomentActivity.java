@@ -42,6 +42,7 @@ public class AddMomentActivity extends AppCompatActivity implements addDialogFra
     EditText title, content;
     TextView big_title, edit_date;
     int category_index;
+    Date date;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +61,10 @@ public class AddMomentActivity extends AppCompatActivity implements addDialogFra
         big_title = (TextView) findViewById(R.id.edit_class);
         edit_date = (TextView) findViewById(R.id.edit_date);
 
-        edit_date.setText(new Date().toString());
+        date = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/mm/yyyy");
+        String date_s = sdf.format(date);
+        edit_date.setText(date_s);
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, category);
         category_spinner.setAdapter(adapter);
@@ -105,23 +109,28 @@ public class AddMomentActivity extends AppCompatActivity implements addDialogFra
         submit_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 String title_s = title.getText().toString();
                 String content_s = content.getText().toString();
 
-                if (title_s.equals("") || content_s.equals("")) {
+                if (title_s.equals("") || content_s.equals("") || imgUri == null) {
                     Toast.makeText(AddMomentActivity.this, R.string.submit_moment_warning,
                             Toast.LENGTH_LONG).show();
                 }else{
-                new_data.setTitle(title_s);
-                new_data.setContent(content_s);
-                new_data.setCategory(category_index);
-                new_data.setImage(imgUri);
-                new_data.setDataId(new Date().getTime());
 
-                DaoSession daoSession = ((DaoApplication)getApplication()).getDaoSession();
-                DataDao dataDao = daoSession.getDataDao();
+                    new_data.setTitle(title_s);
+                    new_data.setContent(content_s);
+                    new_data.setCategory(category_index);
+                    new_data.setImage(imgUri);
+                    new_data.setDataId(new Date().getTime());
 
-                dataDao.insert(new_data);
+                    DaoSession daoSession = ((DaoApplication)getApplication()).getDaoSession();
+                    DataDao dataDao = daoSession.getDataDao();
+
+                    dataDao.insert(new_data);
+
+                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                    startActivity(intent);
                 }
             }
         });
@@ -204,6 +213,7 @@ public class AddMomentActivity extends AppCompatActivity implements addDialogFra
                 break;
         }
     }
+
 }
 
 

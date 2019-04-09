@@ -45,14 +45,15 @@
         <ImageView
             android:id="@+id/image_view"
             android:src="@drawable/zhutu001"
-            android:layout_width="400dp"
-            android:layout_height="200dp"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
             android:layout_gravity="center"
             android:layout_marginTop="10dp"
             android:scaleType="centerCrop"
             android:contentDescription="@string/app_name"/>
 
         <EditText
+            android:id="@+id/title"
             android:layout_marginTop="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -64,6 +65,7 @@
             />
 
         <EditText
+            android:id="@+id/content"
             android:layout_width="400dp"
             android:layout_height="200dp"
             android:inputType="textMultiLine"

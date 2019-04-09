@@ -6,7 +6,7 @@
     <string name="nav_header_subtitle">This function is coming soon.</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
-    <string name="submit_moment_warning">Title and content cannot be empty.</string>
+    <string name="submit_moment_warning">Each part cannot be empty.</string>
 
     <string-array name="category_array">
         <item>Lunch Time</item>
