@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //        + getResources().getResourcePackageName(R.drawable.zhutu002) + "/"
 //        + getResources().getResourceTypeName(R.drawable.zhutu002) + "/"
 //        + getResources().getResourceEntryName(R.drawable.zhutu002));
-//        Data data = new Data(date.getTime(),1,"this is test",uri,"kabfjbajf");
+//        Data data = new Data(date.getTime(),1,date.getTime()+"",uri,"kabfjbajf");
 //        dataDao.insert(data);
         //然后用这个dataDao下面的方法进行数据库操作
         //显示数据库中的data

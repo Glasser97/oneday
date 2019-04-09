@@ -3,6 +3,7 @@ package com.coderziyang.oneday;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
@@ -65,13 +67,21 @@ public class MomentAdapter extends RecyclerView.Adapter<MomentAdapter.MomentView
                 });
             }
         });
-//        holder.itemView.setOnClickListener(new View.OnClickListener(){
-//            @Override
-//            public void onClick(View v){
-//                int position = holder.getAdapterPosition();
-//                Intent intent = new Intent()
-//            }
-//        });
+        holder.itemView.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                DaoMaster.DevOpenHelper openHelper=new DaoMaster.DevOpenHelper(mContext,"OneDay_DB");
+                Database database=openHelper.getWritableDb();
+                DaoMaster daoMaster=new DaoMaster(database);
+                DataDao dataDao = daoSession.getDataDao();
+                long id = (Long) holder.itemView.getTag();
+                Toast.makeText(mContext,""+id,Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(mContext,DetailActivity.class);
+                intent.putExtra("dataId",id);
+                mContext.startActivity(intent);
+
+            }
+        });
         return holder;
     }
 
