@@ -47,9 +47,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         DataDao dataDao = daoSession.getDataDao();
         Date date = new Date();
         Uri uri = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://"
-        + getResources().getResourcePackageName(R.drawable.img279) + "/"
-        + getResources().getResourceTypeName(R.drawable.img279) + "/"
-        + getResources().getResourceEntryName(R.drawable.img279));
+        + getResources().getResourcePackageName(R.drawable.zhutu002) + "/"
+        + getResources().getResourceTypeName(R.drawable.zhutu002) + "/"
+        + getResources().getResourceEntryName(R.drawable.zhutu002));
         Data data = new Data(date.getTime(),1,"this is test",uri,"kabfjbajf");
         dataDao.insert(data);
         //然后用这个dataDao下面的方法进行数据库操作

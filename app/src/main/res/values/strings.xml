@@ -7,13 +7,23 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
     <string-array name="category_array">
-        <item>Play</item>
-        <item>Foods</item>
-        <item>Landscape</item>
-        <item>People</item>
+        <item>Lunch Time</item>
+        <item>Travel Time</item>
+        <item>Day Time</item>
+        <item>Work Time</item>
+        <item>Party Time</item>
+        <item>Sport Time</item>
     </string-array>
 
     <string name="take_photo">Take A Photo</string>
     <string name="open_album">Open My Album</string>
     <string name="remove">remove</string>
+
+
+    <string name="Edit_Date">07/09/2019</string>
+    <string name="Edit_Class">LUNCH TIME</string>
+    <string name="Edit_Title">NICE DAY</string>
+    <string name="Edit_Btn_Name">APPLY</string>
+    <string name="Edit_MainWord">Keep Moving and Caring On</string>
+
 </resources>
