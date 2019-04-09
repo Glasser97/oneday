@@ -27,9 +27,11 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
     private List<Data> dataList = new ArrayList<>();
     private MomentAdapter adapter;
+    public static MainActivity instance;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        instance=this;
         setContentView(R.layout.activity_main);
         //设定工具栏
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);

@@ -19,7 +19,6 @@
         android:layout_marginRight="3dp"
         android:focusable="true"
         android:foreground="?android:attr/selectableItemBackground"
-        android:stateListAnimator="@animator/lift_on_touch"
         card_view:cardCornerRadius="5dp"
         card_view:cardElevation="5dp"
         card_view:cardMaxElevation="5dp">
@@ -69,6 +68,7 @@
                 android:scaleType="centerCrop"
                 android:layout_marginTop="15dp"
                 android:contentDescription="@string/app_name"
+                android:adjustViewBounds="true"
                 android:src="@drawable/zhutu001" />
 
             <LinearLayout
