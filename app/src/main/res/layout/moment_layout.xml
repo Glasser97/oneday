@@ -35,6 +35,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginStart="5dp"
                 android:textColor="@color/colorPrimaryDark"
+                android:fontFamily="@font/eurostileregular"
                 android:textAllCaps="true"
                 android:textStyle="bold"
                 android:textSize="30sp" />
@@ -44,6 +45,7 @@
                 android:layout_below="@+id/moment_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/eurostileregular"
                 android:layout_marginStart="5dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginEnd="3dp"
@@ -62,12 +64,37 @@
             <ImageView
                 android:id="@+id/moment_img"
                 android:layout_below="@+id/moment_line"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_width="400dp"
+                android:layout_height="200dp"
+                android:scaleType="centerCrop"
                 android:layout_marginTop="15dp"
                 android:contentDescription="@string/app_name"
                 android:src="@drawable/zhutu001" />
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_below="@id/moment_img"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/moment_button_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="VIEW"
+                android:layout_weight="0.5"
+                android:background="@drawable/card_btn_bg" />
+
+            <Button
+                android:id="@+id/moment_button_share"
+                android:layout_width="wrap_content"
+                android:text="SHARE"
+                android:layout_weight="0.5"
+                android:layout_height="wrap_content"
+                android:background="@drawable/card_btn_bg" />
+
+            </LinearLayout>
 
         </RelativeLayout>
 

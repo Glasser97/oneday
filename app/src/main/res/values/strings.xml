@@ -1,10 +1,12 @@
 <resources>
-    <string name="app_name">oneday</string>
+    <string name="app_name">OneDay</string>
+
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Coming Soon</string>
-    <string name="nav_header_subtitle">This function is coming soon.</string>
+    <string name="nav_header_title">Your Name</string>
+    <string name="nav_header_subtitle">Le vent se lève ，il faut tenter de vivre. </string>
     <string name="nav_header_desc">Navigation header</string>
+
     <string name="action_settings">Settings</string>
     <string name="modify">modify</string>
     <string name="delete">delete</string>
