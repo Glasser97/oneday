@@ -10,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,11 +31,13 @@ public class MomentAdapter extends RecyclerView.Adapter<MomentAdapter.MomentView
         ImageView momentImg;
         TextView momentTitle;
         TextView momentCategory;
+        Button momentViewBtn;
         public MomentViewHolder(View view){
             super(view);
             momentImg = (ImageView)view.findViewById(R.id.moment_img);
             momentTitle = (TextView)view.findViewById(R.id.moment_title);
             momentCategory = (TextView)view.findViewById(R.id.moment_category);
+            momentViewBtn = (Button)view.findViewById(R.id.moment_button_view);
         }
     }
     public MomentAdapter(List<Data> MomentList){
@@ -53,9 +56,6 @@ public class MomentAdapter extends RecyclerView.Adapter<MomentAdapter.MomentView
                 menu.add(Menu.NONE, 0, 0,"delete").setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
-                        DaoMaster.DevOpenHelper openHelper=new DaoMaster.DevOpenHelper(mContext,"OneDay_DB");
-                        Database database=openHelper.getWritableDb();
-                        DaoMaster daoMaster=new DaoMaster(database);
                         DataDao dataDao = daoSession.getDataDao();
                         long id = (Long) holder.itemView.getTag();
                         dataDao.deleteByKey(id);
@@ -68,7 +68,7 @@ public class MomentAdapter extends RecyclerView.Adapter<MomentAdapter.MomentView
                 });
             }
         });
-        holder.itemView.setOnClickListener(new View.OnClickListener(){
+        holder.momentViewBtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
                 long id = (Long) holder.itemView.getTag();

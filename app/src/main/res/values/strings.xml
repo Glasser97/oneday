@@ -11,6 +11,19 @@
     <string name="modify">modify</string>
     <string name="delete">delete</string>
     <string name="submit_moment_warning">Title and content cannot be empty.</string>
+    <string name="the_days">YOU HAVE RECORDED</string>
+    <string name="the_sum">YOU HAVE RECORDED</string>
+    <string name="class_sum">YOU HAVE RECORDED</string>
+    <string name="default_number">0</string>
+    <string name="days">days</string>
+    <string name="moments">moments</string>
+    <string name="lunch">Lunch Time</string>
+    <string name="travel">Travel Time</string>
+    <string name="day_time">Day Time</string>
+    <string name="work">Work Time</string>
+    <string name="party">Party Time</string>
+    <string name="sport">Sport Time</string>
+    <string name="main_time">MAIN Time</string>
 
     <string-array name="category_array">
         <item>Lunch Time</item>
@@ -31,5 +44,8 @@
     <string name="Edit_Title">NICE DAY</string>
     <string name="Edit_Btn_Name">APPLY</string>
     <string name="Edit_MainWord">Keep Moving and Caring On</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

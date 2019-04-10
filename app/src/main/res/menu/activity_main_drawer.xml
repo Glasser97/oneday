@@ -5,17 +5,34 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_camera"
+            android:id="@+id/main_page"
             android:icon="@drawable/ic_menu_camera"
-            android:title="Import" />
+            android:title="@string/main_time" />
         <item
-            android:id="@+id/nav_sync"
+            android:id="@+id/lunch_time"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="@string/lunch" />
+        <item
+            android:id="@+id/travel_time"
             android:icon="@drawable/ic_menu_gallery"
-            android:title="Synchronize" />
+            android:title="@string/travel" />
         <item
-            android:id="@+id/nav_manage"
+            android:id="@+id/day_time"
             android:icon="@drawable/ic_menu_manage"
-            android:title="Tools" />
+            android:title="@string/day_time" />
+        <item
+            android:id="@+id/work_time"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="@string/work" />
+        <item
+            android:id="@+id/party_time"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="@string/party" />
+        <item
+            android:id="@+id/sport_time"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="@string/sport" />
+
     </group>
 
     <item android:title="Communicate">
