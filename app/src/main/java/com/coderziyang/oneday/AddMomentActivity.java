@@ -44,6 +44,7 @@ public class AddMomentActivity extends AppCompatActivity implements addDialogFra
     int category_index;
     Date date;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -9,14 +9,9 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:showIn="@layout/app_bar_main"
     tools:context=".MainActivity">
-    <android.support.constraint.ConstraintLayout
+    <FrameLayout
+        android:id="@+id/main_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-        </android.support.constraint.ConstraintLayout>
-
+        android:layout_height="match_parent"
+        android:layout_weight="4"/>
 </android.support.design.widget.CoordinatorLayout>
