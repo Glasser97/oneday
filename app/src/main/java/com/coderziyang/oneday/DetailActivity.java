@@ -44,7 +44,7 @@ public class DetailActivity extends AppCompatActivity {
         dataDao = daoSession.getDataDao();
         Data data = dataDao.load(id);
         Date date =new Date(id);
-        SimpleDateFormat sdf=new SimpleDateFormat("dd/mm/yyyy");
+        SimpleDateFormat sdf=new SimpleDateFormat("dd/MM/yyyy");
         Glide.with(this).load(data.getImageUri()).into(imageShow);
         dateShow.setText(sdf.format(date));
         classShow.setText(category[data.getCategory()]);

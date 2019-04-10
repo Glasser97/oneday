@@ -23,12 +23,16 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import static com.coderziyang.oneday.DaoApplication.daoSession;
+
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
     private List<Data> dataList = new ArrayList<>();
+    private List<String> dayList = new ArrayList<>();
     private MomentAdapter adapter;
     public static MainActivity instance;
     private static final int MAIN =9;
@@ -39,12 +43,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private static final int PARTY=4;
     private static final int SPORT=5;
     int whichTime;
+    int days;
 
     @Override
     protected void onResume() {
         super.onResume();
         loadPreferences();
-        MainFragment rePageFrag=MainFragment.newInstance(whichTime);
+        MainFragment rePageFrag=MainFragment.newInstance(whichTime,days);
         FragmentManager fm=getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         ft.replace(R.id.main_layout,rePageFrag).commit();
@@ -79,10 +84,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         //get the DAO Database
-        //然后用这个dataDao下面的方法进行数据库操作
-        //显示数据库中的data
+        DataDao dataDao = daoSession.getDataDao();
+        //数据库中的data
+        dataList=dataDao.queryBuilder().orderDesc(DataDao.Properties.DataId).list();
+        Date date=new Date();
+        String str;
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        for(int i=dataList.size()-1;i>=0;i--){
+            date.setTime(dataList.get(i).getDataId());
+            str=sdf.format(date);
+            if(!dayList.contains(str)){
+                dayList.add(sdf.format(date));
+            }
+        }
+        days=dayList.size();
         whichTime=MAIN;
-
         //悬浮小圆球，跳转activity
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -127,7 +143,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }else if (id == R.id.sport_time) {
             whichTime=SPORT;
         }
-        MainFragment mainPageFrag=MainFragment.newInstance(whichTime);
+        MainFragment mainPageFrag=MainFragment.newInstance(whichTime,days);
         ft.replace(R.id.main_layout,mainPageFrag).commit();
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

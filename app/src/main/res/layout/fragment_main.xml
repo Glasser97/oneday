@@ -10,7 +10,7 @@
     <LinearLayout
         android:id="@+id/the_tongju"
         android:layout_width="match_parent"
-        android:layout_height="120dp"
+        android:layout_height="100dp"
         android:orientation="vertical"
         android:baselineAligned="true">
     <LinearLayout
