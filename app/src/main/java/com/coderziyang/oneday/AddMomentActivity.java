@@ -25,10 +25,13 @@ import com.bumptech.glide.Glide;
 import com.yalantis.ucrop.UCrop;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+import java.nio.channels.FileChannel;
 import java.text.SimpleDateFormat;
 
 import java.util.Date;
@@ -97,7 +100,8 @@ public class AddMomentActivity extends AppCompatActivity implements addDialogFra
                     }
                 }
             });
-        }else{
+
+        }else{ //////////////////////////////////////////////////////////
 
             image_display.setImageResource(R.drawable.plus);
             new_data = new Data();
@@ -181,33 +185,30 @@ public class AddMomentActivity extends AppCompatActivity implements addDialogFra
         if (requestCode == REQUEST_CODE_PICK_IMAGE) {
             if (data != null) {
                 File album_file;
-                File crop_image = null;
+//                File crop_image = null;
 
                 album_file = saveIntentDataToExternal("RAW", data.getData());
                 imgUri = FileProvider.getUriForFile(this, "com.coderziyang.oneday.fileprovider", album_file);
-                try {
-                    crop_image = createImageFile("CROP");
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+//                try {
+//                    crop_image = createImageFile("CROP");
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
 //                cropUri = Uri.fromFile(crop_image);
 //                cropRawPhoto(imgUri, cropUri);
                   showImage(imgUri, image_display);
             }
             } else if (requestCode == TAKE_PHOTO_REQUEST) {
-                if (data != null) {
-                    File crop_image = null;
-                    try {
-                        crop_image = createImageFile("CROP");
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+//                    File crop_image = null;
+//                    try {
+//                        crop_image = createImageFile("CROP");
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
 //                    cropUri = Uri.fromFile(crop_image);
 //                    cropRawPhoto(imgUri, cropUri);
                     showImage(imgUri, image_display);
-                }
             }
-
         }
 
 
@@ -256,6 +257,7 @@ public class AddMomentActivity extends AppCompatActivity implements addDialogFra
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
             if (photofile != null) {
                 if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
                     imgUri = Uri.fromFile(photofile);
@@ -274,6 +276,7 @@ public class AddMomentActivity extends AppCompatActivity implements addDialogFra
 
     protected void getImageFromAlbum() {
         Intent intent = new Intent(Intent.ACTION_PICK);
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         intent.setType("image/*");
         startActivityForResult(intent, REQUEST_CODE_PICK_IMAGE);
     }
@@ -281,7 +284,7 @@ public class AddMomentActivity extends AppCompatActivity implements addDialogFra
 
     private void showImage(Uri imageUri, ImageView imageView){
         if(imageUri!=null){
-            Glide.with(this).load(imageUri).into(imageView);
+            Glide.with(this).load(imageUri).error(R.drawable.plus).into(imageView);
         }
     }
 
