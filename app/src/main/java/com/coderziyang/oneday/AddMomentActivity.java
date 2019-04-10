@@ -4,13 +4,10 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
-import android.os.StrictMode;
 import android.provider.MediaStore;
-import android.provider.SyncStateContract;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -24,7 +21,11 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.nio.file.Files;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -33,7 +34,7 @@ import java.util.Date;
 public class AddMomentActivity extends AppCompatActivity implements addDialogFragment.OnDialogChosenListener{
 
     ImageView image_display;
-    private Uri imgUri = null;
+    private Uri imgUri = null, cropUri = null;
     public final int TAKE_PHOTO_REQUEST = 1, REQUEST_CODE_PICK_IMAGE = 2;
     public Data new_data;
     Button submit_button;
@@ -49,6 +50,7 @@ public class AddMomentActivity extends AppCompatActivity implements addDialogFra
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_moment);
+
         submit_button = (Button) findViewById(R.id.button);
         category_spinner = (Spinner) findViewById(R.id.spinner);
         title = (EditText) findViewById(R.id.title);
@@ -59,20 +61,23 @@ public class AddMomentActivity extends AppCompatActivity implements addDialogFra
         category = getResources().getStringArray(R.array.category_array);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, category);
         category_spinner.setAdapter(adapter);
+
         if (getIntent().hasExtra("DataId")){
-            long inputId=getIntent().getLongExtra("DataId",0);
+
+            long inputId = getIntent().getLongExtra("DataId",0);
             DaoSession daoSession = ((DaoApplication)getApplication()).getDaoSession();
             final DataDao mDataDao = daoSession.getDataDao();
-            final Data inputData=mDataDao.load(inputId);
-            Date inputDate =new Date(inputId);
-            SimpleDateFormat sdf=new SimpleDateFormat("dd/MM/yyyy");
-            imgUri=inputData.getImageUri();
+            final Data inputData = mDataDao.load(inputId);
+            Date inputDate = new Date(inputId);
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+            imgUri = inputData.getImageUri();
             Glide.with(this).load(inputData.getImageUri()).into(image_display);
             edit_date.setText(sdf.format(inputDate));
             category_spinner.setSelection(inputData.getCategory(),true);
             title.setText(inputData.getTitle());
             content.setText(inputData.getContent());
             submit_button.setOnClickListener(new View.OnClickListener(){
+
                 @Override
                 public void onClick(View v){
                     String title_s = title.getText().toString();
@@ -91,6 +96,7 @@ public class AddMomentActivity extends AppCompatActivity implements addDialogFra
                 }
             });
         }else{
+
             image_display.setImageResource(R.drawable.plus);
             new_data = new Data();
             date = new Date();
@@ -172,8 +178,30 @@ public class AddMomentActivity extends AppCompatActivity implements addDialogFra
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
         if (requestCode == REQUEST_CODE_PICK_IMAGE){
             if (data != null){
-                imgUri = data.getData();
+
+                Uri uri = data.getData();
+                File file = null;
+                try {
+                    InputStream  inputStream = getContentResolver().openInputStream(uri);    //////copy the chosen image into application picture directory.
+                    int  bytesAvailable = inputStream.available();
+                    int maxBufferSize = 1 * 1024 * 1024;
+                    int bufferSize = Math.min(bytesAvailable, maxBufferSize);
+                    final byte[] buffers = new byte[bufferSize];
+
+                    file = createImageFile();
+                    FileOutputStream outputStream = new FileOutputStream(file);
+
+                    int read = 0;
+                    while ((read = inputStream.read(buffers)) != -1) {
+                        outputStream.write(buffers, 0, read);
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                imgUri = FileProvider.getUriForFile(this, "com.coderziyang.oneday.fileprovider", file);
                 showImage(imgUri, image_display);
+
             }
         }else if(requestCode == TAKE_PHOTO_REQUEST){
             if (data != null){
@@ -182,9 +210,9 @@ public class AddMomentActivity extends AppCompatActivity implements addDialogFra
         }
     }
 
-    private File createImageFile() throws IOException {
+    private File createImageFile() throws IOException {              ///////create image file for saving image captured by camera.
         String imgName = "oneday_" + new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        File pictureDir = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES).getAbsolutePath());
+        File pictureDir = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES).getAbsolutePath() + "/RAW");
         if (!pictureDir.exists()) {
             pictureDir.mkdirs();
         }
@@ -196,7 +224,7 @@ public class AddMomentActivity extends AppCompatActivity implements addDialogFra
         return image;
     }
 
-    private void openCamera(){
+    private void openCamera(){                                     /////////open camera to take photo,save uri for display.
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (intent.resolveActivity(getPackageManager()) != null) {
             File photofile = null;
@@ -219,6 +247,35 @@ public class AddMomentActivity extends AppCompatActivity implements addDialogFra
         startActivityForResult(intent, TAKE_PHOTO_REQUEST);
     }
 
+//    private File createCropImageFile() throws IOException{
+//        String cropName = "oneday_crop_" + new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+//        File cropDir = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES).getAbsolutePath() + "/CROP");
+//        if (!cropDir.exists()) {
+//            cropDir.mkdirs();
+//        }
+//        File cropimage = File.createTempFile(
+//                cropName,         /* prefix */
+//                ".jpg",    /* suffix */
+//                cropDir       /* directory */
+//        );
+//        return cropimage;
+//    }
+//
+//    private void crop(){
+//        File cropfile = null;
+//        try {
+//            cropfile = createCropImageFile();
+//        }catch (IOException e) {
+//            e.printStackTrace(); }
+//        if (cropfile != null) {
+//            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+//                cropUri = Uri.fromFile(cropfile);
+//            } else {
+//                cropUri = FileProvider.getUriForFile(this, "com.coderziyang.oneday.fileprovider", cropfile);
+//            }
+//        }
+//    }
+
     protected void getImageFromAlbum() {
         Intent intent = new Intent(Intent.ACTION_PICK);
         intent.setType("image/*");
@@ -237,7 +294,6 @@ public class AddMomentActivity extends AppCompatActivity implements addDialogFra
         switch (option) {
             case 1:
                 openCamera();
-                showImage(imgUri, image_display);
                 break;
             case 2:
                 getImageFromAlbum();
