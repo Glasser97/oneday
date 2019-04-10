@@ -327,7 +327,7 @@ public class AddMomentActivity extends AppCompatActivity implements addDialogFra
         options.setToolbarColor(getResources().getColor(R.color.colorPrimary, null));
         options.setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark, null));
         options.setHideBottomControls(true);
-        options.setCompressionFormat(Bitmap.CompressFormat.JPEG);
+        options.setCompressionFormat(Bitmap.CompressFormat.PNG);
         options.setCompressionQuality(100);
         options.setFreeStyleCropEnabled(true);
 
