@@ -1,6 +1,8 @@
 package com.coderziyang.oneday;
 
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
@@ -8,6 +10,7 @@ import android.provider.MediaStore;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -19,16 +22,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.yalantis.ucrop.UCrop;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
-import java.nio.file.Files;
+
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
+
 import java.util.Date;
 
 public class AddMomentActivity extends AppCompatActivity implements addDialogFragment.OnDialogChosenListener{
@@ -176,52 +178,73 @@ public class AddMomentActivity extends AppCompatActivity implements addDialogFra
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
-        if (requestCode == REQUEST_CODE_PICK_IMAGE){
-            if (data != null){
+        if (requestCode == REQUEST_CODE_PICK_IMAGE) {
+            if (data != null) {
+                File album_file;
+                File crop_image = null;
 
-                Uri uri = data.getData();
-                File file = null;
+                album_file = saveIntentDataToExternal("RAW", data.getData());
+                imgUri = FileProvider.getUriForFile(this, "com.coderziyang.oneday.fileprovider", album_file);
                 try {
-                    InputStream  inputStream = getContentResolver().openInputStream(uri);    //////copy the chosen image into application picture directory.
-                    int  bytesAvailable = inputStream.available();
-                    int maxBufferSize = 1 * 1024 * 1024;
-                    int bufferSize = Math.min(bytesAvailable, maxBufferSize);
-                    final byte[] buffers = new byte[bufferSize];
-
-                    file = createImageFile();
-                    FileOutputStream outputStream = new FileOutputStream(file);
-
-                    int read = 0;
-                    while ((read = inputStream.read(buffers)) != -1) {
-                        outputStream.write(buffers, 0, read);
-                    }
+                    crop_image = createImageFile("CROP");
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-
-                imgUri = FileProvider.getUriForFile(this, "com.coderziyang.oneday.fileprovider", file);
-                showImage(imgUri, image_display);
-
+//                cropUri = Uri.fromFile(crop_image);
+//                cropRawPhoto(imgUri, cropUri);
+                  showImage(imgUri, image_display);
             }
-        }else if(requestCode == TAKE_PHOTO_REQUEST){
-            if (data != null){
-                showImage(imgUri, image_display);
+            } else if (requestCode == TAKE_PHOTO_REQUEST) {
+                if (data != null) {
+                    File crop_image = null;
+                    try {
+                        crop_image = createImageFile("CROP");
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+//                    cropUri = Uri.fromFile(crop_image);
+//                    cropRawPhoto(imgUri, cropUri);
+                    showImage(imgUri, image_display);
+                }
             }
-        }
-    }
 
-    private File createImageFile() throws IOException {              ///////create image file for saving image captured by camera.
-        String imgName = "oneday_" + new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        File pictureDir = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES).getAbsolutePath() + "/RAW");
-        if (!pictureDir.exists()) {
-            pictureDir.mkdirs();
         }
-        File image = File.createTempFile(
-                imgName,         /* prefix */
-                ".jpg",    /* suffix */
-                pictureDir       /* directory */
-        );
-        return image;
+
+
+
+
+    private File createImageFile(String option) throws IOException {              ///////create temp image file for saving image.
+        switch (option){
+
+            case "RAW":
+                String imgName = "oneday_" + new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+                File pictureDir = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES).getAbsolutePath() + "/RAW");
+                if (!pictureDir.exists()) {
+                    pictureDir.mkdirs();
+                }
+                File image = File.createTempFile(
+                        imgName,         /* prefix */
+                        ".jpg",    /* suffix */
+                        pictureDir       /* directory */
+                );
+                return image;
+
+            case "CROP":
+                String cropName = "oneday_crop_" + new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+                File cropDir = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES).getAbsolutePath() + "/CROP");
+                if (!cropDir.exists()) {
+                    cropDir.mkdirs();
+                }
+                File cropimage = File.createTempFile(
+                        cropName,         /* prefix */
+                        ".jpg",    /* suffix */
+                        cropDir       /* directory */
+                );
+                return cropimage;
+
+            default:System.out.println("createImageFile need a option.");
+                return null;
+        }
     }
 
     private void openCamera(){                                     /////////open camera to take photo,save uri for display.
@@ -229,7 +252,7 @@ public class AddMomentActivity extends AppCompatActivity implements addDialogFra
         if (intent.resolveActivity(getPackageManager()) != null) {
             File photofile = null;
             try {
-                photofile = createImageFile();
+                photofile = createImageFile("RAW");
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -247,34 +270,7 @@ public class AddMomentActivity extends AppCompatActivity implements addDialogFra
         startActivityForResult(intent, TAKE_PHOTO_REQUEST);
     }
 
-//    private File createCropImageFile() throws IOException{
-//        String cropName = "oneday_crop_" + new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-//        File cropDir = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES).getAbsolutePath() + "/CROP");
-//        if (!cropDir.exists()) {
-//            cropDir.mkdirs();
-//        }
-//        File cropimage = File.createTempFile(
-//                cropName,         /* prefix */
-//                ".jpg",    /* suffix */
-//                cropDir       /* directory */
-//        );
-//        return cropimage;
-//    }
-//
-//    private void crop(){
-//        File cropfile = null;
-//        try {
-//            cropfile = createCropImageFile();
-//        }catch (IOException e) {
-//            e.printStackTrace(); }
-//        if (cropfile != null) {
-//            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
-//                cropUri = Uri.fromFile(cropfile);
-//            } else {
-//                cropUri = FileProvider.getUriForFile(this, "com.coderziyang.oneday.fileprovider", cropfile);
-//            }
-//        }
-//    }
+
 
     protected void getImageFromAlbum() {
         Intent intent = new Intent(Intent.ACTION_PICK);
@@ -300,6 +296,45 @@ public class AddMomentActivity extends AppCompatActivity implements addDialogFra
                 break;
         }
     }
+
+    private File saveIntentDataToExternal(String option, Uri image_uri){
+        File file = null;
+        try {
+            InputStream  inputStream = getContentResolver().openInputStream(image_uri);    //////copy the chosen image into application picture directory.
+            int  bytesAvailable = inputStream.available();
+            int maxBufferSize = 1 * 1024 * 1024;
+            int bufferSize = Math.min(bytesAvailable, maxBufferSize);
+            final byte[] buffers = new byte[bufferSize];
+
+            file = createImageFile(option);
+            FileOutputStream outputStream = new FileOutputStream(file);
+
+            int read = 0;
+            while ((read = inputStream.read(buffers)) != -1) {
+                outputStream.write(buffers, 0, read);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return file;
+    }
+
+//    public void cropRawPhoto(Uri source_uri, Uri destination_uri) {
+//
+//        UCrop.Options options = new UCrop.Options();
+//        options.setToolbarColor(getResources().getColor(R.color.colorPrimary, null));
+//        options.setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark, null));
+//        options.setHideBottomControls(true);
+////        options.setCompressionFormat(Bitmap.CompressFormat.PNG);
+////        options.setCompressionQuality(100);
+//        options.setFreeStyleCropEnabled(true);
+//
+//        UCrop.of(source_uri, destination_uri)
+//                .withAspectRatio(1, 1)
+//                .withMaxResultSize(200, 200)
+//                .withOptions(options)
+//                .start(this);
+//    }
 
 }
 
