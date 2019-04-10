@@ -6,6 +6,8 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.TabItem;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
@@ -71,18 +73,29 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         instance=this;
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.app_bar_main);
         //设定工具栏
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+        TabLayout tablayout = (TabLayout) findViewById(R.id.tablayout);
+        TabItem tabitem0=(TabItem)findViewById(R.id.Tab_000);
+        TabItem tabitem1=(TabItem)findViewById(R.id.Tab_001);
+        TabItem tabitem2=(TabItem)findViewById(R.id.Tab_002);
+        TabItem tabitem3=(TabItem)findViewById(R.id.Tab_003);
+        TabItem tabitem4=(TabItem)findViewById(R.id.Tab_004);
+        TabItem tabitem5=(TabItem)findViewById(R.id.Tab_005);
+        TabItem tabitem6=(TabItem)findViewById(R.id.Tab_006);
+
+
+
+        //DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+//        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+//                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+//        drawer.addDrawerListener(toggle);
+        //toggle.syncState();
+        //NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+       // navigationView.setNavigationItemSelectedListener(this);
         //get the DAO Database
         DataDao dataDao = daoSession.getDataDao();
         //数据库中的data
@@ -111,15 +124,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
-    @Override
-    public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
-    }
+//    @Override
+//    public void onBackPressed() {
+//        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+//        if (drawer.isDrawerOpen(GravityCompat.START)) {
+//            drawer.closeDrawer(GravityCompat.START);
+//        } else {
+//            super.onBackPressed();
+//        }
+//    }
 
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -145,8 +158,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
         MainFragment mainPageFrag=MainFragment.newInstance(whichTime,days);
         ft.replace(R.id.main_layout,mainPageFrag).commit();
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
+//        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+//        drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 }
