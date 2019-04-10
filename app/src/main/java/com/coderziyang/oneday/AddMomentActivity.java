@@ -190,8 +190,9 @@ public class AddMomentActivity extends AppCompatActivity implements addDialogFra
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                cropUri = Uri.fromFile(crop_image);
-                cropRawPhoto(imgUri, cropUri);
+//                cropUri = Uri.fromFile(crop_image);
+//                cropRawPhoto(imgUri, cropUri);
+                  showImage(imgUri, image_display);
             }
             } else if (requestCode == TAKE_PHOTO_REQUEST) {
                 if (data != null) {
@@ -201,18 +202,15 @@ public class AddMomentActivity extends AppCompatActivity implements addDialogFra
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    cropUri = Uri.fromFile(crop_image);
-                    cropRawPhoto(imgUri, cropUri);
+//                    cropUri = Uri.fromFile(crop_image);
+//                    cropRawPhoto(imgUri, cropUri);
+                    showImage(imgUri, image_display);
                 }
             }
 
-            if (requestCode == UCrop.REQUEST_CROP) {
-                cropUri = UCrop.getOutput(data);
-                showImage(cropUri, image_display);
-                imgUri = cropUri;
         }
 
-        }
+
 
 
     private File createImageFile(String option) throws IOException {              ///////create temp image file for saving image.
@@ -321,22 +319,22 @@ public class AddMomentActivity extends AppCompatActivity implements addDialogFra
         return file;
     }
 
-    public void cropRawPhoto(Uri source_uri, Uri destination_uri) {
-
-        UCrop.Options options = new UCrop.Options();
-        options.setToolbarColor(getResources().getColor(R.color.colorPrimary, null));
-        options.setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark, null));
-        options.setHideBottomControls(true);
-        options.setCompressionFormat(Bitmap.CompressFormat.PNG);
-        options.setCompressionQuality(100);
-        options.setFreeStyleCropEnabled(true);
-
-        UCrop.of(source_uri, destination_uri)
-                .withAspectRatio(1, 1)
-                .withMaxResultSize(200, 200)
-                .withOptions(options)
-                .start(this);
-    }
+//    public void cropRawPhoto(Uri source_uri, Uri destination_uri) {
+//
+//        UCrop.Options options = new UCrop.Options();
+//        options.setToolbarColor(getResources().getColor(R.color.colorPrimary, null));
+//        options.setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark, null));
+//        options.setHideBottomControls(true);
+////        options.setCompressionFormat(Bitmap.CompressFormat.PNG);
+////        options.setCompressionQuality(100);
+//        options.setFreeStyleCropEnabled(true);
+//
+//        UCrop.of(source_uri, destination_uri)
+//                .withAspectRatio(1, 1)
+//                .withMaxResultSize(200, 200)
+//                .withOptions(options)
+//                .start(this);
+//    }
 
 }
 

@@ -16,10 +16,7 @@
         android:theme="@style/AppTheme">
         <activity android:name=".DetailActivity"></activity>
         <activity android:name=".AddMomentActivity" />
-        <activity
-            android:name="com.yalantis.ucrop.UCropActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+
         <activity
             android:name=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
