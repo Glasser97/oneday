@@ -1,31 +1,72 @@
 package com.coderziyang.oneday;
 
-    import android.content.Intent;
-import android.graphics.Bitmap;
+import android.content.ContentResolver;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
-import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
+import android.view.ContextMenu;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+
+import static com.coderziyang.oneday.DaoApplication.daoSession;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
     private List<Data> dataList = new ArrayList<>();
+    private List<String> dayList = new ArrayList<>();
     private MomentAdapter adapter;
     public static MainActivity instance;
+    private static final int MAIN =9;
+    private static final int LUNCH = 0;
+    private static final int TRAVEL = 1;
+    private static final int DAY=2;
+    private static final int WORK=3;
+    private static final int PARTY=4;
+    private static final int SPORT=5;
+    int whichTime;
+    int days;
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loadPreferences();
+        MainFragment rePageFrag=MainFragment.newInstance(whichTime,days);
+        FragmentManager fm=getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.replace(R.id.main_layout,rePageFrag).commit();
+    }
+    @Override
+    protected  void onPause(){
+        super.onPause();
+        savePreferences(whichTime);
+    }
+    public void savePreferences(int whichTime) {
+        SharedPreferences pref = getSharedPreferences("TIME_KINDS", MODE_PRIVATE);
+        pref.edit().putInt("whichTime", whichTime).apply();
+    }
+    public void loadPreferences() {
+        SharedPreferences pref = getSharedPreferences("TIME_KINDS", MODE_PRIVATE);
+        whichTime=pref.getInt("whichTime", 9);
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,24 +84,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         //get the DAO Database
-        DaoSession daoSession = ((DaoApplication)getApplication()).getDaoSession();
         DataDao dataDao = daoSession.getDataDao();
-//        Date date = new Date();
-//        Uri uri = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://"
-//        + getResources().getResourcePackageName(R.drawable.zhutu002) + "/"
-//        + getResources().getResourceTypeName(R.drawable.zhutu002) + "/"
-//        + getResources().getResourceEntryName(R.drawable.zhutu002));
-//        Data data = new Data(date.getTime(),1,date.getTime()+"",uri,"kabfjbajf");
-//        dataDao.insert(data);
-        //然后用这个dataDao下面的方法进行数据库操作
-        //显示数据库中的data
+        //数据库中的data
         dataList=dataDao.queryBuilder().orderDesc(DataDao.Properties.DataId).list();
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
-        adapter = new MomentAdapter(dataList);
-        recyclerView.setAdapter(adapter);
-
+        Date date=new Date();
+        String str;
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        for(int i=dataList.size()-1;i>=0;i--){
+            date.setTime(dataList.get(i).getDataId());
+            str=sdf.format(date);
+            if(!dayList.contains(str)){
+                dayList.add(sdf.format(date));
+            }
+        }
+        days=dayList.size();
+        whichTime=MAIN;
         //悬浮小圆球，跳转activity
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -87,42 +125,29 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-
-        if (id == R.id.nav_camera) {
+        FragmentManager fm=getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        if (id == R.id.main_page) {
+            whichTime=MAIN;
             // Handle the camera action
-        } else if (id == R.id.nav_sync) {
-            Toast.makeText(this,"This is Synchronize",Toast.LENGTH_LONG).show();
-
-        }  else if (id == R.id.nav_manage) {
-            Toast.makeText(this,"This is DrawableLayout",Toast.LENGTH_LONG).show();
-
-        } else if (id == R.id.nav_share) {
-            Toast.makeText(this,"This is DrawableLayout",Toast.LENGTH_LONG).show();
-
-        } else if (id == R.id.nav_send) {
-            Toast.makeText(this,"This is DrawableLayout",Toast.LENGTH_LONG).show();
-
+        } else if (id == R.id.lunch_time) {
+            whichTime=LUNCH;
+        }  else if (id == R.id.travel_time) {
+            whichTime=TRAVEL;
+        } else if (id == R.id.day_time) {
+            whichTime=DAY;
+        } else if (id == R.id.work_time) {
+            whichTime=WORK;
+        }else if (id == R.id.party_time) {
+            whichTime=PARTY;
+        }else if (id == R.id.sport_time) {
+            whichTime=SPORT;
         }
-
+        MainFragment mainPageFrag=MainFragment.newInstance(whichTime,days);
+        ft.replace(R.id.main_layout,mainPageFrag).commit();
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-    private Bitmap getBitmapFromUri(Uri uri)
-    {
-        try
-        {
-            // 读取uri所在的图片
-            Bitmap sourceBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri);
-            return sourceBitmap;
-        }
-        catch (Exception e)
-        {
-            Log.e("[Android]", e.getMessage());
-            Log.e("[Android]", "目录为：" + uri);
-            e.printStackTrace();
-            return null;
-        }
-
-}}
+}
 

@@ -13,7 +13,7 @@
     <string name="submit_moment_warning">Title and content cannot be empty.</string>
     <string name="the_days">YOU HAVE RECORDED</string>
     <string name="the_sum">YOU HAVE RECORDED</string>
-    <string name="class_sum">YOU HAVE RECORDED</string>
+    <string name="class_sum">RECORDS IN</string>
     <string name="default_number">0</string>
     <string name="days">days</string>
     <string name="moments">moments</string>
