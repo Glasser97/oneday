@@ -1,18 +1,13 @@
 package com.coderziyang.oneday;
 
 import android.content.Intent;
-import android.database.Cursor;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
-import android.os.StrictMode;
 import android.provider.MediaStore;
-import android.provider.SyncStateContract;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -186,7 +181,7 @@ public class AddMomentActivity extends AppCompatActivity implements addDialogFra
                 Uri uri = data.getData();
                 File file = null;
                 try {
-                    InputStream  inputStream = getContentResolver().openInputStream(uri);
+                    InputStream  inputStream = getContentResolver().openInputStream(uri);    //////copy the chosen image into application picture directory.
                     int  bytesAvailable = inputStream.available();
                     int maxBufferSize = 1 * 1024 * 1024;
                     int bufferSize = Math.min(bytesAvailable, maxBufferSize);
@@ -199,12 +194,12 @@ public class AddMomentActivity extends AppCompatActivity implements addDialogFra
                     while ((read = inputStream.read(buffers)) != -1) {
                         outputStream.write(buffers, 0, read);
                     }
-
-                    imgUri = FileProvider.getUriForFile(this, "com.coderziyang.oneday.fileprovider", file);
-
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+
+                imgUri = FileProvider.getUriForFile(this, "com.coderziyang.oneday.fileprovider", file);
+                showImage(imgUri, image_display);
 
             }
         }else if(requestCode == TAKE_PHOTO_REQUEST){
