@@ -1,7 +1,7 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
@@ -11,6 +11,20 @@
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="common_spinner">
+        <!--设置弹窗背景为 系统设置的 应用主色调 在application 的colorPrimay 中配置的颜色, actionBar toolbar 默认使用这个为背景颜色-->
+        <item name="android:popupBackground">@color/colorWhite</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">match_parent</item>
+        <!--设置 spinner 显示位置往下偏移 actionBarSize 的高度, 默认显示是直接显示在 Spinner 的选中项的上方-->
+        <item name="android:dropDownVerticalOffset">?attr/actionBarSize</item>
+        <!--设置选中之后Item 的背景变换 设置背景为 灰色背景色-->
+        <item name="android:dropDownSelector">@color/two_gray</item>
+
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
