@@ -32,7 +32,7 @@ import java.util.List;
 
 import static com.coderziyang.oneday.DaoApplication.daoSession;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+public class MainActivity extends AppCompatActivity{
     private List<Data> dataList = new ArrayList<>();
     private List<String> dayList = new ArrayList<>();
     private MomentAdapter adapter;
@@ -78,26 +78,46 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+
         TabLayout tablayout = (TabLayout) findViewById(R.id.tablayout);
-        TabItem tabitem0=(TabItem)findViewById(R.id.Tab_000);
-        TabItem tabitem1=(TabItem)findViewById(R.id.Tab_001);
-        TabItem tabitem2=(TabItem)findViewById(R.id.Tab_002);
-        TabItem tabitem3=(TabItem)findViewById(R.id.Tab_003);
-        TabItem tabitem4=(TabItem)findViewById(R.id.Tab_004);
-        TabItem tabitem5=(TabItem)findViewById(R.id.Tab_005);
-        TabItem tabitem6=(TabItem)findViewById(R.id.Tab_006);
 
+        tablayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener(){
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                int id=tab.getPosition();
+                FragmentManager fm=getSupportFragmentManager();
+                FragmentTransaction ft = fm.beginTransaction();
+                if (id == 0) {
+                    whichTime=MAIN;
+                    // Handle the camera action
+                } else if (id == 1) {
+                    whichTime=LUNCH;
+                }  else if (id == 2) {
+                    whichTime=TRAVEL;
+                } else if (id == 3) {
+                    whichTime=DAY;
+                } else if (id == 4) {
+                    whichTime=WORK;
+                }else if (id == 5) {
+                    whichTime=PARTY;
+                }else if (id == 6) {
+                    whichTime=SPORT;
+                }
+                MainFragment mainPageFrag=MainFragment.newInstance(whichTime,days);
+                ft.replace(R.id.main_layout,mainPageFrag).commit();
+            }
 
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
 
+            }
 
-        //DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-//        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-//                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-//        drawer.addDrawerListener(toggle);
-        //toggle.syncState();
-        //NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-       // navigationView.setNavigationItemSelectedListener(this);
-        //get the DAO Database
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+
         DataDao dataDao = daoSession.getDataDao();
         //数据库中的data
         dataList=dataDao.queryBuilder().orderDesc(DataDao.Properties.DataId).list();
@@ -125,43 +145,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
-//    @Override
-//    public void onBackPressed() {
-//        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-//        if (drawer.isDrawerOpen(GravityCompat.START)) {
-//            drawer.closeDrawer(GravityCompat.START);
-//        } else {
-//            super.onBackPressed();
-//        }
-//    }
 
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
-        FragmentManager fm=getSupportFragmentManager();
-        FragmentTransaction ft = fm.beginTransaction();
-        if (id == R.id.main_page) {
-            whichTime=MAIN;
-            // Handle the camera action
-        } else if (id == R.id.lunch_time) {
-            whichTime=LUNCH;
-        }  else if (id == R.id.travel_time) {
-            whichTime=TRAVEL;
-        } else if (id == R.id.day_time) {
-            whichTime=DAY;
-        } else if (id == R.id.work_time) {
-            whichTime=WORK;
-        }else if (id == R.id.party_time) {
-            whichTime=PARTY;
-        }else if (id == R.id.sport_time) {
-            whichTime=SPORT;
-        }
-        MainFragment mainPageFrag=MainFragment.newInstance(whichTime,days);
-        ft.replace(R.id.main_layout,mainPageFrag).commit();
-//        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-//        drawer.closeDrawer(GravityCompat.START);
-        return true;
-    }
 }
 
