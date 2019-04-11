@@ -92,7 +92,7 @@ public class MainFragment extends Fragment {
 
         if(timeName==MAIN){
             dataList=dataDao.queryBuilder().orderDesc(DataDao.Properties.DataId).list();
-            className.setText("ONE DAY");
+            className.setText(getResources().getText(R.string.oneday));
             classNum.setText(dataDao.count()+getResources().getString(R.string.moments));
         }else{
             dataList=dataDao.queryBuilder().orderDesc(DataDao.Properties.DataId)
