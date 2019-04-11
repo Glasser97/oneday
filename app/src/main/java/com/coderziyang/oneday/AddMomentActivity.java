@@ -80,6 +80,9 @@ public class AddMomentActivity extends AppCompatActivity implements addDialogFra
             Glide.with(this).load(inputData.getImageUri()).into(image_display);
             edit_date.setText(sdf.format(inputDate));
             category_spinner.setSelection(inputData.getCategory(),true);
+            index=inputData.getCategory();
+            category_index = index;
+            big_title.setText(category[index]);
             title.setText(inputData.getTitle());
             content.setText(inputData.getContent());
             submit_button.setOnClickListener(new View.OnClickListener(){
