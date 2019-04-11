@@ -18,8 +18,8 @@
 
     <string name="default_number">0</string>
 
-    <string name="days">days</string>
-    <string name="moments">moments</string>
+    <string name="days">&#160;DAY</string>
+    <string name="moments">&#160;REC</string>
     <string name="lunch">Lunch Time</string>
     <string name="travel">Travel Time</string>
     <string name="day_time">Day Time</string>
@@ -42,11 +42,13 @@
     <string name="remove">remove</string>
 
 
+    <string name="beautiful_sentence">-Remember The Time-</string>
+
     <string name="Edit_Date">07/09/2019</string>
-    <string name="Edit_Class">LUNCH TIME</string>
-    <string name="Edit_Title">NICE DAY</string>
+    <string name="Edit_Class">SET CLASS HERE</string>
+    <string name="Edit_Title">TYPE TITLE HERE</string>
     <string name="Edit_Btn_Name">APPLY</string>
-    <string name="Edit_MainWord">Keep Moving and Caring On</string>
+    <string name="Edit_MainWord">PLEASE INPUT WHAT YOU WANT TO RECORD HERE</string>
 
     <string name="Tab_000">ARCHIVE</string>
     <string name="Tab_001">LUNCH TIME</string>
