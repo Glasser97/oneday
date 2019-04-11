@@ -4,7 +4,7 @@
 
     <string name="titlename">壹日</string>
 
-    <string name="button_main_edit">编辑</string>
+    <string name="button_main_edit">详情</string>
     <string name="button_main_share">分享</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>

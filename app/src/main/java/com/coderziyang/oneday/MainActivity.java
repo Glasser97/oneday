@@ -140,6 +140,7 @@ public class MainActivity extends AppCompatActivity{
             }
         }
         days=dayList.size();
+
         whichTime=0;
         myViewPager=(ViewPager) findViewById(R.id.myViewPager);
         FragmentAdapter myFragmentAdapter=new FragmentAdapter(getSupportFragmentManager(),7,days);

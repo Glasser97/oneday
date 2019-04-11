@@ -67,9 +67,9 @@ public class AddMomentActivity extends AppCompatActivity implements addDialogFra
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, category);
         category_spinner.setAdapter(adapter);
 
-        if (getIntent().hasExtra("DataId")){
+        if (getIntent().hasExtra("dataId")){
 
-            long inputId = getIntent().getLongExtra("DataId",0);
+            long inputId = getIntent().getLongExtra("dataId",0);
             DaoSession daoSession = ((DaoApplication)getApplication()).getDaoSession();
             final DataDao mDataDao = daoSession.getDataDao();
             final Data inputData = mDataDao.load(inputId);
@@ -93,9 +93,14 @@ public class AddMomentActivity extends AppCompatActivity implements addDialogFra
                     }else{
                         new_data=new Data(inputData.getDataId(),category_index,title_s,imgUri,content_s);
                         mDataDao.update(new_data);
-                        Intent intent2 = new Intent();
-                        intent2.putExtra("dataId2",inputData.getDataId());
-                        AddMomentActivity.this.setResult(RESULT_OK,intent2);
+                        Intent intent2 = new Intent(getApplicationContext(),DetailActivity.class);
+                        intent2.putExtra("dataId",inputData.getDataId());
+                        //AddMomentActivity.this.setResult(RESULT_OK,intent2);
+                        if(DetailActivity.instance!=null){
+                            DetailActivity.instance.finish();
+                            startActivity(intent2);
+                        }
+
                         AddMomentActivity.this.finish();
                     }
                 }

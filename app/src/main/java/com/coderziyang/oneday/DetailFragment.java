@@ -2,6 +2,7 @@ package com.coderziyang.oneday;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import static com.coderziyang.oneday.DaoApplication.daoSession;
 
@@ -33,7 +35,12 @@ public class DetailFragment extends Fragment {
     private String mTitle;
     private String mImageUri;
     private String mContent;
-
+    public final int MODIFY_CODE=3;
+    TextView dateShow;
+    TextView classShow;
+    TextView titleShow;
+    ImageView imageShow;
+    TextView contentShow;
 
     public DetailFragment() {
         // Required empty public constructor
@@ -76,11 +83,12 @@ public class DetailFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view=inflater.inflate(R.layout.fragment_detail, container, false);
-        TextView dateShow=view.findViewById(R.id.date_show);
-        TextView classShow=view.findViewById(R.id.class_show);
-        TextView titleShow=view.findViewById(R.id.title_show);
-        ImageView imageShow=view.findViewById(R.id.image_view);
-        TextView contentShow=view.findViewById(R.id.content_show);
+        dateShow=view.findViewById(R.id.date_show);
+        classShow=view.findViewById(R.id.class_show);
+        titleShow=view.findViewById(R.id.title_show);
+        imageShow=view.findViewById(R.id.image_view);
+        contentShow=view.findViewById(R.id.content_show);
+        ImageView modifyImage=view.findViewById(R.id.modify);
         category = getResources().getStringArray(R.array.category_array);
         SimpleDateFormat sdf=new SimpleDateFormat("dd/MM/yyyy");
         Glide.with(this).load(mImageUri).into(imageShow);
@@ -88,7 +96,32 @@ public class DetailFragment extends Fragment {
         classShow.setText(category[mCatgory]);
         titleShow.setText(mTitle);
         contentShow.setText(mContent);
+        modifyImage.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Intent intent = new Intent(getActivity(), AddMomentActivity.class);
+                intent.putExtra("dataId",mId);
+                startActivity(intent);
+            }
+        });
         return view;
     }
+//    @Override
+//    public void onActivityResult(int requestCode, int resultCode, Intent result){
+//        if (requestCode == MODIFY_CODE){
+//            if (result != null){
+//                long resId=result.getLongExtra("dataId2",0);
+//                DataDao dataDao=daoSession.getDataDao();
+//                Data data = dataDao.load(resId);
+//                Date date =new Date(resId);
+//                SimpleDateFormat sdf=new SimpleDateFormat("dd/MM/yyyy");
+//                Glide.with(this).load(data.getImageUri()).into(imageShow);
+//                dateShow.setText(sdf.format(date));
+//                classShow.setText(category[data.getCategory()]);
+//                titleShow.setText(data.getTitle());
+//                contentShow.setText(data.getContent());
+//            }
+//        }
+//    }
 
 }
