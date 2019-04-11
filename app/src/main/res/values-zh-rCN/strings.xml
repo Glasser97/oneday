@@ -1,0 +1,78 @@
+<resources>
+
+    <string name="app_name">壹日</string>
+
+    <string name="titlename">壹日</string>
+
+    <string name="button_main_edit">编辑</string>
+    <string name="button_main_share">分享</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Your Name</string>
+    <string name="nav_header_subtitle">Le vent se lève ，il faut tenter de vivre. </string>
+    <string name="nav_header_desc">Navigation header</string>
+
+    <string name="action_settings">设置</string>
+    <string name="modify">编辑</string>
+    <string name="delete">删除</string>
+    <string name="submit_moment_warning">请填充所有的部件</string>
+
+    <string name="the_days">积日</string>
+    <string name="the_sum">抒写</string>
+    <string name="class_sum">类目</string>
+
+    <string name="default_number">0</string>
+
+    <string name="days">&#160;天数</string>
+    <string name="moments">&#160;记录</string>
+    <string name="lunch">食记</string>
+    <string name="travel">行记</string>
+    <string name="day_time">日记</string>
+    <string name="work">随记</string>
+    <string name="party">影记</string>
+    <string name="sport">数记</string>
+    <string name="main_time">壹日壹记</string>
+
+    <string-array name="category_array">
+        <item>食记</item>
+        <item>行记</item>
+        <item>日记</item>
+        <item>随记</item>
+        <item>数记</item>
+        <item>阅记</item>
+    </string-array>
+    <string-array name="tablayout_array">
+        <item>阅记</item>
+        <item>食记</item>
+        <item>行记</item>
+        <item>日记</item>
+        <item>随记</item>
+        <item>数记</item>
+        <item>阅记</item>
+    </string-array>
+
+    <string name="take_photo">点击拍照</string>
+    <string name="open_album">打开相册</string>
+    <string name="remove">移除</string>
+
+
+    <string name="beautiful_sentence">-Remember The Time-</string>
+
+    <string name="Edit_Date">07/09/2019</string>
+    <string name="Edit_Class">SET CLASS HERE</string>
+    <string name="Edit_Title">TYPE TITLE HERE</string>
+    <string name="Edit_Btn_Name">APPLY</string>
+    <string name="Edit_MainWord">PLEASE INPUT WHAT YOU WANT TO RECORD HERE</string>
+
+    <string name="Tab_000">ARCHIVE</string>
+    <string name="Tab_001">LUNCH TIME</string>
+    <string name="Tab_002">TRAVEL TIME</string>
+    <string name="Tab_003">HAPPY TIME</string>
+    <string name="Tab_004">WORK TIME</string>
+    <string name="Tab_005">READING TIME</string>
+    <string name="Tab_006">PARTY TIME</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+</resources>
