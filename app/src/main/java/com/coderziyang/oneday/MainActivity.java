@@ -2,6 +2,8 @@ package com.coderziyang.oneday;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -9,12 +11,16 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.DisplayMetrics;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import static com.coderziyang.oneday.DaoApplication.daoSession;
 
@@ -33,6 +39,7 @@ public class MainActivity extends AppCompatActivity{
     private TabLayout tablayout;
     int whichTime;
     int days;
+    String languageselect;
 
     @Override
     protected void onResume() {
@@ -51,15 +58,68 @@ public class MainActivity extends AppCompatActivity{
         SharedPreferences pref = getSharedPreferences("TIME_KINDS", MODE_PRIVATE);
         pref.edit().putInt("whichTime", whichTime).apply();
     }
+    public void savePreferences(String language) {
+        SharedPreferences pref = getSharedPreferences("Language", MODE_PRIVATE);
+        pref.edit().putString("language", language).apply();
+    }
     public void loadPreferences() {
         SharedPreferences pref = getSharedPreferences("TIME_KINDS", MODE_PRIVATE);
         whichTime=pref.getInt("whichTime", 0);
     }
+    public void loadLanguagePreferences() {
+        SharedPreferences pref = getSharedPreferences("Language", MODE_PRIVATE);
+        languageselect=pref.getString("language","en");
+    }
+
+    public void selectLanguage(String language){
+        Resources resources = getResources();
+        Configuration configuration = resources.getConfiguration();
+        DisplayMetrics displayMetrics = resources.getDisplayMetrics();
+        switch (language) {
+            case "en":
+                configuration.locale = Locale.ENGLISH;
+                break;
+            case "zh":
+                configuration.locale = Locale.SIMPLIFIED_CHINESE;
+                break;
+            default:
+                configuration.locale = Locale.getDefault();
+                break;
+        }
+        savePreferences(languageselect);
+        resources.updateConfiguration(configuration, displayMetrics);
+        Intent intent = new Intent(this,MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        //保存设置语言的类型
+//        SharedPreferenceUtils.putString(this,"language", language);
+    }
+    public void setLanguageStart(String lang){
+        Resources resources = getResources();
+        Configuration configuration = resources.getConfiguration();
+        DisplayMetrics displayMetrics = resources.getDisplayMetrics();
+        switch (lang) {
+            case "en":
+                configuration.locale = Locale.ENGLISH;
+                break;
+            case "zh":
+                configuration.locale = Locale.SIMPLIFIED_CHINESE;
+                break;
+            default:
+                configuration.locale = Locale.getDefault();
+                break;
+        }
+        resources.updateConfiguration(configuration, displayMetrics);
+    }
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         instance=this;
         setContentView(R.layout.app_bar_main);
+        loadLanguagePreferences();
+        setLanguageStart(languageselect);
         //设定工具栏
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -98,6 +158,21 @@ public class MainActivity extends AppCompatActivity{
                 startActivity(intent);
             }
         });
+
+        final ImageButton language = (ImageButton) findViewById(R.id.image_button);
+        language.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if( languageselect.equals("zh")){
+                    languageselect="en";
+                }else if(languageselect.equals("en")){
+                    languageselect="zh";
+                }
+                selectLanguage(languageselect);
+            }
+        });
+
+
     }
 
 

@@ -22,12 +22,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.yalantis.ucrop.UCrop;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+import java.nio.channels.FileChannel;
 import java.text.SimpleDateFormat;
 
 import java.util.Date;
@@ -96,7 +100,8 @@ public class AddMomentActivity extends AppCompatActivity implements addDialogFra
                     }
                 }
             });
-        }else{
+
+        }else{ //////////////////////////////////////////////////////////
 
             image_display.setImageResource(R.drawable.plus);
             new_data = new Data();
@@ -187,26 +192,27 @@ public class AddMomentActivity extends AppCompatActivity implements addDialogFra
                 try {
                     crop_image = createImageFile("CROP");
                 } catch (IOException e) {
+                    crop_image.delete();
                     e.printStackTrace();
                 }
-//                cropUri = Uri.fromFile(crop_image);
-//                cropRawPhoto(imgUri, cropUri);
-                  showImage(imgUri, image_display);
+                cropUri = Uri.fromFile(crop_image);
+                cropRawPhoto(imgUri, cropUri);
+                showImage(cropUri, image_display);
+                imgUri = cropUri;
             }
             } else if (requestCode == TAKE_PHOTO_REQUEST) {
-                if (data != null) {
                     File crop_image = null;
                     try {
                         crop_image = createImageFile("CROP");
                     } catch (IOException e) {
+                        crop_image.delete();
                         e.printStackTrace();
                     }
-//                    cropUri = Uri.fromFile(crop_image);
-//                    cropRawPhoto(imgUri, cropUri);
-                    showImage(imgUri, image_display);
-                }
+                    cropUri = Uri.fromFile(crop_image);
+                    cropRawPhoto(imgUri, cropUri);
+                    showImage(cropUri, image_display);
+                    imgUri = cropUri;
             }
-
         }
 
 
@@ -253,8 +259,10 @@ public class AddMomentActivity extends AppCompatActivity implements addDialogFra
             try {
                 photofile = createImageFile("RAW");
             } catch (IOException e) {
+                photofile.delete();
                 e.printStackTrace();
             }
+
             if (photofile != null) {
                 if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
                     imgUri = Uri.fromFile(photofile);
@@ -273,6 +281,7 @@ public class AddMomentActivity extends AppCompatActivity implements addDialogFra
 
     protected void getImageFromAlbum() {
         Intent intent = new Intent(Intent.ACTION_PICK);
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         intent.setType("image/*");
         startActivityForResult(intent, REQUEST_CODE_PICK_IMAGE);
     }
@@ -280,7 +289,7 @@ public class AddMomentActivity extends AppCompatActivity implements addDialogFra
 
     private void showImage(Uri imageUri, ImageView imageView){
         if(imageUri!=null){
-            Glide.with(this).load(imageUri).into(imageView);
+            Glide.with(this).load(imageUri).error(R.drawable.plus).into(imageView);
         }
     }
 
@@ -313,27 +322,28 @@ public class AddMomentActivity extends AppCompatActivity implements addDialogFra
                 outputStream.write(buffers, 0, read);
             }
         } catch (IOException e) {
+            file.delete();
             e.printStackTrace();
         }
         return file;
     }
 
-//    public void cropRawPhoto(Uri source_uri, Uri destination_uri) {
-//
-//        UCrop.Options options = new UCrop.Options();
-//        options.setToolbarColor(getResources().getColor(R.color.colorPrimary, null));
-//        options.setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark, null));
-//        options.setHideBottomControls(true);
-////        options.setCompressionFormat(Bitmap.CompressFormat.PNG);
-////        options.setCompressionQuality(100);
-//        options.setFreeStyleCropEnabled(true);
-//
-//        UCrop.of(source_uri, destination_uri)
-//                .withAspectRatio(1, 1)
-//                .withMaxResultSize(200, 200)
-//                .withOptions(options)
-//                .start(this);
-//    }
+    public void cropRawPhoto(Uri source_uri, Uri destination_uri) {
+
+        UCrop.Options options = new UCrop.Options();
+        options.setToolbarColor(getResources().getColor(R.color.colorPrimary, null));
+        options.setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark, null));
+        options.setHideBottomControls(false);
+        options.setCompressionFormat(Bitmap.CompressFormat.JPEG);
+        options.setCompressionQuality(100);
+        options.setFreeStyleCropEnabled(false);
+
+        UCrop.of(source_uri, destination_uri)
+                .withAspectRatio(1, 1)
+                .withMaxResultSize(1000, 1000)
+                .withOptions(options)
+                .start(this);
+    }
 
 }
 
