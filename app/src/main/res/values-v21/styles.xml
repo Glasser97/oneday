@@ -5,4 +5,10 @@
         <item name="windowNoTitle">true</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
+
+
+    <style name="TabLayoutTextStyle">
+        <item name="android:textStyle">italic</item>
+    </style>
+
 </resources>

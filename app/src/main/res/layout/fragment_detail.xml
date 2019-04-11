@@ -40,21 +40,23 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="@string/app_name"
+                    android:text="@string/titlename"
+                    android:fontFamily="@font/xiukai"
                     android:textColor="@color/colorPrimaryDark"
                     android:textSize="24sp" />
+
                 <ImageButton
                     android:id="@+id/modify"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:padding="0dp"
                     android:background="#00000000"
                     android:layout_gravity="end"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginEnd="10dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginEnd="15dp"
                     android:scaleType="fitXY"
                     android:contentDescription="@string/app_name"
-                    android:src="@drawable/icon001" />
+                    android:src="@drawable/icon003" />
 
             </FrameLayout>
 
@@ -65,6 +67,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:fontFamily="@font/xiukai"
             android:textColor="@color/two_gray"
             android:text="@string/beautiful_sentence"
             android:textSize="10sp"
@@ -76,6 +79,7 @@
             android:layout_marginStart="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/xiukai"
             android:layout_gravity="start"
             android:textColor="@color/colorPrimaryDark"
             android:textSize="20sp"
@@ -95,6 +99,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
                 android:text="@string/Edit_Class"
+                android:fontFamily="@font/xiukai"
                 android:textColor="@color/colorPrimary"
                 android:textSize="14sp"
                 />
@@ -105,6 +110,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:text="@string/Edit_Date"
+                android:fontFamily="@font/xiukai"
                 android:textColor="@color/colorPrimary"
                 android:textSize="14sp"
                 />
@@ -127,6 +133,7 @@
             android:layout_gravity="center"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
+            android:fontFamily="@font/xiukai"
             android:gravity="start"
             android:hint="@string/Edit_MainWord"
             android:layout_marginTop="20dp"
@@ -150,6 +157,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginBottom="40dp"
+            android:fontFamily="@font/xiukai"
             android:textColor="@color/two_gray"
             android:text="@string/beautiful_sentence"
             android:textSize="10sp"

@@ -4,4 +4,10 @@
         android:fontStyle="normal"
         android:fontWeight="400"
         android:font="@font/eurostileregular" />
+
+    <font
+        android:fontStyle="normal"
+        android:fontWeight="400"
+        android:font="@font/xiukai" />
+
 </font-family>
