@@ -36,6 +36,15 @@
         <item>Reading Time</item>
         <item>Party Time</item>
     </string-array>
+    <string-array name="tablayout_array">
+        <item>ARCHIVE</item>
+        <item>Lunch TIME</item>
+        <item>Travel TIME</item>
+        <item>Happy TIME</item>
+        <item>Work TIME</item>
+        <item>Reading TIME</item>
+        <item>Party TIME</item>
+    </string-array>
 
     <string name="take_photo">Take A Photo</string>
     <string name="open_album">Open My Album</string>

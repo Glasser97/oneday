@@ -1,10 +1,12 @@
 package com.coderziyang.oneday;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -17,39 +19,53 @@ import com.bumptech.glide.Glide;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
+
+import static com.coderziyang.oneday.DaoApplication.daoSession;
 
 public class DetailActivity extends AppCompatActivity {
-    private TextView dateShow;
-    private TextView classShow;
-    private TextView titleShow;
-    private ImageView imageShow;
-    private TextView contentShow;
     public final int MODIFY_CODE=3;
     long id;
     String[] category;
     DataDao dataDao;
+    private ViewPager myViewPager;
+    List<Data> dataList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
-        dateShow=findViewById(R.id.date_show);
-        classShow=findViewById(R.id.class_show);
-        titleShow=findViewById(R.id.title_show);
-        imageShow=findViewById(R.id.image_view);
-        contentShow=findViewById(R.id.content_show);
-        category = getResources().getStringArray(R.array.category_array);
+//        dateShow=findViewById(R.id.date_show);
+//        classShow=findViewById(R.id.class_show);
+//        titleShow=findViewById(R.id.title_show);
+//        imageShow=findViewById(R.id.image_view);
+//        contentShow=findViewById(R.id.content_show);
+//        category = getResources().getStringArray(R.array.category_array);
         id =getIntent().getLongExtra("dataId",0);
-        DaoSession daoSession = ((DaoApplication)getApplication()).getDaoSession();
         dataDao = daoSession.getDataDao();
+//        Data data = dataDao.load(id);
+//        Date date =new Date(id);
+//
+//        SimpleDateFormat sdf=new SimpleDateFormat("dd/MM/yyyy");
+//        Glide.with(this).load(data.getImageUri()).into(imageShow);
+//        dateShow.setText(sdf.format(date));
+//        classShow.setText(category[data.getCategory()]);
+//        titleShow.setText(data.getTitle());
+//        contentShow.setText(data.getContent());
         Data data = dataDao.load(id);
-        Date date =new Date(id);
-        SimpleDateFormat sdf=new SimpleDateFormat("dd/MM/yyyy");
-        Glide.with(this).load(data.getImageUri()).into(imageShow);
-        dateShow.setText(sdf.format(date));
-        classShow.setText(category[data.getCategory()]);
-        titleShow.setText(data.getTitle());
-        contentShow.setText(data.getContent());
+        dataList=dataDao.queryBuilder().orderDesc(DataDao.Properties.DataId).list();
+        myViewPager=(ViewPager) findViewById(R.id.myViewPager);
+        int numOfData = dataList.size();
+        int position=0;
+        for(int i=0;i<numOfData;i++){
+            if (dataList.get(i).getDataId()==id){
+                position=i;
+                break;
+            }
+        }
+        DetailAdapter myDetailAdapter=new DetailAdapter(getSupportFragmentManager(),dataList,numOfData);
+        myViewPager.setAdapter(myDetailAdapter);
+        myViewPager.setCurrentItem(position,true);
     }
 
     @Override
@@ -89,11 +105,11 @@ public class DetailActivity extends AppCompatActivity {
                 Data data = dataDao.load(resId);
                 Date date =new Date(id);
                 SimpleDateFormat sdf=new SimpleDateFormat("dd/MM/yyyy");
-                Glide.with(this).load(data.getImageUri()).into(imageShow);
-                dateShow.setText(sdf.format(date));
-                classShow.setText(category[data.getCategory()]);
-                titleShow.setText(data.getTitle());
-                contentShow.setText(data.getContent());
+//                Glide.with(this).load(data.getImageUri()).into(imageShow);
+//                dateShow.setText(sdf.format(date));
+//                classShow.setText(category[data.getCategory()]);
+//                titleShow.setText(data.getTitle());
+//                contentShow.setText(data.getContent());
             }
         }
     }

@@ -1,28 +1,17 @@
 package com.coderziyang.oneday;
 
-import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.NavigationView;
-import android.support.design.widget.TabItem;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.ContextMenu;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
@@ -35,6 +24,7 @@ import static com.coderziyang.oneday.DaoApplication.daoSession;
 public class MainActivity extends AppCompatActivity{
     private List<Data> dataList = new ArrayList<>();
     private List<String> dayList = new ArrayList<>();
+    List <Fragment> fragmentList= new ArrayList<>();
     private MomentAdapter adapter;
     public static MainActivity instance;
     private static final int MAIN =9;
@@ -44,6 +34,8 @@ public class MainActivity extends AppCompatActivity{
     private static final int WORK=3;
     private static final int PARTY=4;
     private static final int SPORT=5;
+    private ViewPager myViewPager;
+    private TabLayout tablayout;
     int whichTime;
     int days;
 
@@ -51,15 +43,14 @@ public class MainActivity extends AppCompatActivity{
     protected void onResume() {
         super.onResume();
         loadPreferences();
-        MainFragment rePageFrag=MainFragment.newInstance(whichTime,days);
-        FragmentManager fm=getSupportFragmentManager();
-        FragmentTransaction ft = fm.beginTransaction();
-        ft.replace(R.id.main_layout,rePageFrag).commit();
+        if (whichTime!=0){
+            tablayout.getTabAt(whichTime).select();
+        }
     }
     @Override
     protected  void onPause(){
         super.onPause();
-        savePreferences(whichTime);
+        savePreferences(tablayout.getSelectedTabPosition());
     }
     public void savePreferences(int whichTime) {
         SharedPreferences pref = getSharedPreferences("TIME_KINDS", MODE_PRIVATE);
@@ -67,7 +58,7 @@ public class MainActivity extends AppCompatActivity{
     }
     public void loadPreferences() {
         SharedPreferences pref = getSharedPreferences("TIME_KINDS", MODE_PRIVATE);
-        whichTime=pref.getInt("whichTime", 9);
+        whichTime=pref.getInt("whichTime", 0);
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,48 +69,10 @@ public class MainActivity extends AppCompatActivity{
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-
-        TabLayout tablayout = (TabLayout) findViewById(R.id.tablayout);
-
-        tablayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener(){
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                int id=tab.getPosition();
-                FragmentManager fm=getSupportFragmentManager();
-                FragmentTransaction ft = fm.beginTransaction();
-                if (id == 0) {
-                    whichTime=MAIN;
-                    // Handle the camera action
-                } else if (id == 1) {
-                    whichTime=LUNCH;
-                }  else if (id == 2) {
-                    whichTime=TRAVEL;
-                } else if (id == 3) {
-                    whichTime=DAY;
-                } else if (id == 4) {
-                    whichTime=WORK;
-                }else if (id == 5) {
-                    whichTime=PARTY;
-                }else if (id == 6) {
-                    whichTime=SPORT;
-                }
-                MainFragment mainPageFrag=MainFragment.newInstance(whichTime,days);
-                ft.replace(R.id.main_layout,mainPageFrag).commit();
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
-        });
+        tablayout = (TabLayout) findViewById(R.id.tablayout);
 
         DataDao dataDao = daoSession.getDataDao();
-        //数据库中的data
+        //数据库中的data,得到有多少天
         dataList=dataDao.queryBuilder().orderDesc(DataDao.Properties.DataId).list();
         Date date=new Date();
         String str;
@@ -132,7 +85,15 @@ public class MainActivity extends AppCompatActivity{
             }
         }
         days=dayList.size();
-        whichTime=MAIN;
+        whichTime=0;
+        myViewPager=(ViewPager) findViewById(R.id.myViewPager);
+        FragmentAdapter myFragmentAdapter=new FragmentAdapter(getSupportFragmentManager(),7,days);
+        myViewPager.setAdapter(myFragmentAdapter);
+        tablayout.setupWithViewPager(myViewPager);
+        for (int i=0;i<7;i++){
+            tablayout.getTabAt(i).setText(getResources().getStringArray(R.array.tablayout_array)[i]);
+        }
+
         //悬浮小圆球，跳转activity
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -145,6 +106,49 @@ public class MainActivity extends AppCompatActivity{
     }
 
 
+//    @Override
+//    public void onBackPressed() {
+//        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+//        if (drawer.isDrawerOpen(GravityCompat.START)) {
+//            drawer.closeDrawer(GravityCompat.START);
+//        } else {
+//            super.onBackPressed();
+//        }
+//    }
+//    private void freshFragment(int selection){
+//        FragmentManager fm=getSupportFragmentManager();
+//        FragmentTransaction ft = fm.beginTransaction();
+//        MainFragment mainPageFrag=MainFragment.newInstance(selection,days);
+//        ft.replace(R.id.main_layout,mainPageFrag).commit();
+//    }
 
+//    @Override
+//    public boolean onNavigationItemSelected(MenuItem item) {
+//        // Handle navigation view item clicks here.
+//        int id = item.getItemId();
+//        FragmentManager fm=getSupportFragmentManager();
+//        FragmentTransaction ft = fm.beginTransaction();
+//        if (id == R.id.main_page) {
+//            whichTime=MAIN;
+//            // Handle the camera action
+//        } else if (id == R.id.lunch_time) {
+//            whichTime=LUNCH;
+//        }  else if (id == R.id.travel_time) {
+//            whichTime=TRAVEL;
+//        } else if (id == R.id.day_time) {
+//            whichTime=DAY;
+//        } else if (id == R.id.work_time) {
+//            whichTime=WORK;
+//        }else if (id == R.id.party_time) {
+//            whichTime=PARTY;
+//        }else if (id == R.id.sport_time) {
+//            whichTime=SPORT;
+//        }
+//        MainFragment mainPageFrag=MainFragment.newInstance(whichTime,days);
+//        ft.replace(R.id.main_layout,mainPageFrag).commit();
+////        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+////        drawer.closeDrawer(GravityCompat.START);
+//        return true;
+//    }
 }
 

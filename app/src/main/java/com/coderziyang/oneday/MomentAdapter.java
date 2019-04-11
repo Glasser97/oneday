@@ -18,14 +18,13 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
-import org.greenrobot.greendao.database.Database;
 
 import java.util.List;
 
 import static com.coderziyang.oneday.DaoApplication.daoSession;
 
 public class MomentAdapter extends RecyclerView.Adapter<MomentAdapter.MomentViewHolder> {
-    private List<Data> mMomentsList;
+    public List<Data> mMomentsList;
     Context mContext;
     static class MomentViewHolder extends RecyclerView.ViewHolder{
         ImageView momentImg;
