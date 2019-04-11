@@ -84,6 +84,7 @@ public class MainFragment extends Fragment {
         TextView daysNum = (TextView) view.findViewById(R.id.the_days);
         TextView momentsNum = (TextView) view.findViewById(R.id.the_moments);
         TextView classNum = (TextView) view.findViewById(R.id.class_moments);
+        TextView className=(TextView) view.findViewById(R.id.class_name);
         category=getResources().getStringArray(R.array.category_array);
         DataDao dataDao = daoSession.getDataDao();
         daysNum.setText(days+getResources().getString(R.string.days));
@@ -91,11 +92,13 @@ public class MainFragment extends Fragment {
 
         if(timeName==MAIN){
             dataList=dataDao.queryBuilder().orderDesc(DataDao.Properties.DataId).list();
-            classNum.setText(getResources().getString(R.string.app_name)+dataDao.count()+getResources().getString(R.string.moments));
+            className.setText("ONE DAY");
+            classNum.setText(dataDao.count()+getResources().getString(R.string.moments));
         }else{
             dataList=dataDao.queryBuilder().orderDesc(DataDao.Properties.DataId)
                     .where(DataDao.Properties.Category.eq(timeName)).list();
-            classNum.setText(category[timeName]+dataList.size()+getResources().getString(R.string.moments));
+            className.setText(category[timeName]);
+            classNum.setText(dataList.size()+getResources().getString(R.string.moments));
         }
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         LinearLayoutManager layoutManager = new LinearLayoutManager(mContext);

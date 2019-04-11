@@ -5,14 +5,11 @@ import android.content.SharedPreferences;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -24,8 +21,6 @@ import static com.coderziyang.oneday.DaoApplication.daoSession;
 public class MainActivity extends AppCompatActivity{
     private List<Data> dataList = new ArrayList<>();
     private List<String> dayList = new ArrayList<>();
-    List <Fragment> fragmentList= new ArrayList<>();
-    private MomentAdapter adapter;
     public static MainActivity instance;
     private static final int MAIN =9;
     private static final int LUNCH = 0;
