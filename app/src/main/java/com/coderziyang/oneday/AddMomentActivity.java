@@ -49,6 +49,7 @@ public class AddMomentActivity extends AppCompatActivity implements addDialogFra
     TextView big_title, edit_date;
     int category_index;
     Date date;
+    int index;
 
 
     @Override
@@ -114,6 +115,14 @@ public class AddMomentActivity extends AppCompatActivity implements addDialogFra
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
             String date_s = sdf.format(date);
             edit_date.setText(date_s);
+            int position=getIntent().getIntExtra("timeName",0);
+            if (position!=0){
+                category_spinner.setSelection(position-1,true);
+                index=position-1;
+                category_index = index;
+                big_title.setText(category[index]);
+            }
+
             submit_button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -149,7 +158,7 @@ public class AddMomentActivity extends AppCompatActivity implements addDialogFra
         category_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                int index = parent.getSelectedItemPosition();
+                index = parent.getSelectedItemPosition();
                 category_index = index;
                 big_title.setText(category[index]);
 

@@ -15,6 +15,9 @@ import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+
+import com.bumptech.glide.Glide;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -126,6 +129,7 @@ public class MainActivity extends AppCompatActivity{
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         tablayout = (TabLayout) findViewById(R.id.tablayout);
 
+
         DataDao dataDao = daoSession.getDataDao();
         //数据库中的data,得到有多少天
         dataList=dataDao.queryBuilder().orderDesc(DataDao.Properties.DataId).list();
@@ -156,6 +160,7 @@ public class MainActivity extends AppCompatActivity{
             @Override
             public void onClick(View view) {
                 Intent intent= new Intent(MainActivity.this,AddMomentActivity.class);
+                intent.putExtra("timeName",tablayout.getSelectedTabPosition());
                 startActivity(intent);
             }
         });

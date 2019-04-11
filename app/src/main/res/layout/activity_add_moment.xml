@@ -39,7 +39,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="ONE DAY"
+                    android:text="@string/titlename"
                     android:textColor="@color/colorPrimaryDark"
                     android:textSize="24sp" />
 
