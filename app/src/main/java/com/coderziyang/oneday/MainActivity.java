@@ -13,9 +13,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.ImageButton;
-import android.widget.ImageView;
-
-import com.bumptech.glide.Glide;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -181,49 +178,5 @@ public class MainActivity extends AppCompatActivity{
     }
 
 
-//    @Override
-//    public void onBackPressed() {
-//        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-//        if (drawer.isDrawerOpen(GravityCompat.START)) {
-//            drawer.closeDrawer(GravityCompat.START);
-//        } else {
-//            super.onBackPressed();
-//        }
-//    }
-//    private void freshFragment(int selection){
-//        FragmentManager fm=getSupportFragmentManager();
-//        FragmentTransaction ft = fm.beginTransaction();
-//        MainFragment mainPageFrag=MainFragment.newInstance(selection,days);
-//        ft.replace(R.id.main_layout,mainPageFrag).commit();
-//    }
-
-//    @Override
-//    public boolean onNavigationItemSelected(MenuItem item) {
-//        // Handle navigation view item clicks here.
-//        int id = item.getItemId();
-//        FragmentManager fm=getSupportFragmentManager();
-//        FragmentTransaction ft = fm.beginTransaction();
-//        if (id == R.id.main_page) {
-//            whichTime=MAIN;
-//            // Handle the camera action
-//        } else if (id == R.id.lunch_time) {
-//            whichTime=LUNCH;
-//        }  else if (id == R.id.travel_time) {
-//            whichTime=TRAVEL;
-//        } else if (id == R.id.day_time) {
-//            whichTime=DAY;
-//        } else if (id == R.id.work_time) {
-//            whichTime=WORK;
-//        }else if (id == R.id.party_time) {
-//            whichTime=PARTY;
-//        }else if (id == R.id.sport_time) {
-//            whichTime=SPORT;
-//        }
-//        MainFragment mainPageFrag=MainFragment.newInstance(whichTime,days);
-//        ft.replace(R.id.main_layout,mainPageFrag).commit();
-////        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-////        drawer.closeDrawer(GravityCompat.START);
-//        return true;
-//    }
 }
 

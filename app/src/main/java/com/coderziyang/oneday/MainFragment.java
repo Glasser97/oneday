@@ -1,7 +1,6 @@
 package com.coderziyang.oneday;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,9 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import org.greenrobot.greendao.database.Database;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,12 +31,7 @@ public class MainFragment extends Fragment {
     private static final String TIME_NAME = "kind_of_string";
     private static final String DAYS ="days";
     private static final int MAIN =9;
-//    private static final int LUNCH = 0;
-////    private static final int TRAVEL = 1;
-////    private static final int DAY=2;
-////    private static final int WORK=3;
-////    private static final int PARTY=4;
-////    private static final int SPORT=5;
+
     private List<Data> dataList = new ArrayList<>();
     private MomentAdapter adapter;
 

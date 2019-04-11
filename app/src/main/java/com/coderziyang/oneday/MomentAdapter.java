@@ -99,11 +99,6 @@ public class MomentAdapter extends RecyclerView.Adapter<MomentAdapter.MomentView
                 long sid = (Long) holder.itemView.getTag();
                 DataDao dataDao = daoSession.getDataDao();
                 Data sData=dataDao.load(sid);
-//              shareTitle=sData.getTitle();
-//              i=sData.getCategory();
-//              shareCategory=mContext.getResources().getStringArray(R.array.category_array)[i];
-//              shareImageURI=sData.getImage();
-//              ImageURI=Uri.parse(shareImageURI);
                 ImageURI=sData.getImageUri();
                 Log.d("55555555555555555555555", "onClick: "+ ImageURI);
                 shareContent=sData.getContent();             //从数据库拿数据

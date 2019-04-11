@@ -1,7 +1,6 @@
 package com.coderziyang.oneday;
 
 import android.app.Application;
-import android.content.Context;
 
 import org.greenrobot.greendao.database.Database;
 

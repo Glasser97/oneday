@@ -1,7 +1,6 @@
 package com.coderziyang.oneday;
 
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -14,9 +13,6 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
-
-import static com.coderziyang.oneday.DaoApplication.daoSession;
 
 
 /**
@@ -35,7 +31,7 @@ public class DetailFragment extends Fragment {
     private String mTitle;
     private String mImageUri;
     private String mContent;
-    public final int MODIFY_CODE=3;
+    public final int MODIFY_CODE = 3;
     TextView dateShow;
     TextView classShow;
     TextView titleShow;
@@ -53,14 +49,14 @@ public class DetailFragment extends Fragment {
      * @return A new instance of fragment DetailFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static DetailFragment newInstance(long id,int category,String imageUri, String title,String content) {
+    public static DetailFragment newInstance(long id, int category, String imageUri, String title, String content) {
         DetailFragment fragment = new DetailFragment();
         Bundle args = new Bundle();
         args.putLong("id", id);
         args.putInt("category", category);
-        args.putString("imageUri",imageUri);
-        args.putString("title",title);
-        args.putString("content",content);
+        args.putString("imageUri", imageUri);
+        args.putString("title", title);
+        args.putString("content", content);
         fragment.setArguments(args);
         return fragment;
     }
@@ -69,11 +65,11 @@ public class DetailFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-             mId = getArguments().getLong("id");
-            mCatgory=getArguments().getInt("category");
-            mImageUri=getArguments().getString("imageUri");
-            mTitle=getArguments().getString("title");
-            mContent=getArguments().getString("content");
+            mId = getArguments().getLong("id");
+            mCatgory = getArguments().getInt("category");
+            mImageUri = getArguments().getString("imageUri");
+            mTitle = getArguments().getString("title");
+            mContent = getArguments().getString("content");
 
         }
     }
@@ -82,46 +78,29 @@ public class DetailFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view=inflater.inflate(R.layout.fragment_detail, container, false);
-        dateShow=view.findViewById(R.id.date_show);
-        classShow=view.findViewById(R.id.class_show);
-        titleShow=view.findViewById(R.id.title_show);
-        imageShow=view.findViewById(R.id.image_view);
-        contentShow=view.findViewById(R.id.content_show);
-        ImageView modifyImage=view.findViewById(R.id.modify);
+        View view = inflater.inflate(R.layout.fragment_detail, container, false);
+        dateShow = view.findViewById(R.id.date_show);
+        classShow = view.findViewById(R.id.class_show);
+        titleShow = view.findViewById(R.id.title_show);
+        imageShow = view.findViewById(R.id.image_view);
+        contentShow = view.findViewById(R.id.content_show);
+        ImageView modifyImage = view.findViewById(R.id.modify);
         category = getResources().getStringArray(R.array.category_array);
-        SimpleDateFormat sdf=new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         Glide.with(this).load(mImageUri).into(imageShow);
         dateShow.setText(sdf.format(mId));
         classShow.setText(category[mCatgory]);
         titleShow.setText(mTitle);
         contentShow.setText(mContent);
-        modifyImage.setOnClickListener(new View.OnClickListener(){
+        modifyImage.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v){
+            public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), AddMomentActivity.class);
-                intent.putExtra("dataId",mId);
+                intent.putExtra("dataId", mId);
                 startActivity(intent);
             }
         });
         return view;
-    }
-//    @Override
-//    public void onActivityResult(int requestCode, int resultCode, Intent result){
-//        if (requestCode == MODIFY_CODE){
-//            if (result != null){
-//                long resId=result.getLongExtra("dataId2",0);
-//                DataDao dataDao=daoSession.getDataDao();
-//                Data data = dataDao.load(resId);
-//                Date date =new Date(resId);
-//                SimpleDateFormat sdf=new SimpleDateFormat("dd/MM/yyyy");
-//                Glide.with(this).load(data.getImageUri()).into(imageShow);
-//                dateShow.setText(sdf.format(date));
-//                classShow.setText(category[data.getCategory()]);
-//                titleShow.setText(data.getTitle());
-//                contentShow.setText(data.getContent());
-//            }
-//        }
-//    }
 
+    }
 }
