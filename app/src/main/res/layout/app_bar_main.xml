@@ -4,24 +4,132 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".MainActivity">
+
     <!--toolbar 内容-->
     <android.support.design.widget.AppBarLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="#00000000"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.design.widget.CollapsingToolbarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
+        app:layout_scrollFlags="scroll|exitUntilCollapsed"
+        app:contentScrim="?attr/colorPrimary"
+        app:titleEnabled="false">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:contentDescription="@string/app_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/zhutu004"
+                    android:scaleType="centerCrop"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="@string/titlename"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="24sp" />
+
+                <ImageButton
+                    android:id="@+id/image_button"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:padding="0dp"
+                    android:background="#00000000"
+                    android:layout_gravity="end"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:scaleType="fitXY"
+                    android:contentDescription="@string/app_name"
+                    android:src="@drawable/icon001" />
+
+            </FrameLayout>
+
+        </android.support.design.widget.CollapsingToolbarLayout>
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:elevation="4dp"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
+            android:layout_height="45dp"
+            android:background="#00000000"
+            android:clipChildren="false"
+            app:popupTheme="@style/AppTheme.PopupOverlay">
+
+        <android.support.design.widget.TabLayout
+                    android:id="@+id/tablayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:tabMode="scrollable"
+                    app:tabTextColor="@color/colorPrimaryDark"
+                    app:tabSelectedTextColor="@color/colorAccent">
+
+                    <android.support.design.widget.TabItem
+                        android:id="@+id/Tab_000"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/Tab_000" />
+
+                    <android.support.design.widget.TabItem
+                        android:id="@+id/Tab_001"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/Tab_001" />
+
+                    <android.support.design.widget.TabItem
+                        android:id="@+id/Tab_002"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/Tab_002" />
+
+                    <android.support.design.widget.TabItem
+                        android:id="@+id/Tab_003"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/Tab_003" />
+
+                    <android.support.design.widget.TabItem
+                        android:id="@+id/Tab_004"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/Tab_004" />
+
+                    <android.support.design.widget.TabItem
+                        android:id="@+id/Tab_005"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/Tab_005" />
+
+                    <android.support.design.widget.TabItem
+                        android:id="@+id/Tab_006"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/Tab_006" />
+                </android.support.design.widget.TabLayout>
+
+        </android.support.v7.widget.Toolbar>
+
+
+
+
 
     </android.support.design.widget.AppBarLayout>
+
     <!--主界面内容-->
     <include layout="@layout/content_main" />
+
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"

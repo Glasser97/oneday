@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+
     <LinearLayout
         android:orientation="vertical"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
         android:layout_marginRight="10dp"
-        android:layout_marginBottom="40dp"
         >
-
 
         <android.support.design.widget.CollapsingToolbarLayout
             android:layout_width="match_parent"
@@ -31,7 +32,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
                     android:layout_gravity="center"
-                    android:src="@drawable/chatu004"
+                    android:src="@drawable/zhutu004"
                     android:scaleType="centerCrop"
                     />
 
@@ -47,106 +48,100 @@
 
         </android.support.design.widget.CollapsingToolbarLayout>
 
-
         <TextView
-            android:id="@+id/edit_date"
             android:layout_marginTop="20dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="@string/Edit_Date"
-            android:textStyle="italic"
-            android:textColor="@color/colorPrimaryDark"
-            android:textSize="16sp"
+            android:textColor="@color/two_gray"
+            android:text="@string/beautiful_sentence"
+            android:textSize="10sp"
             />
 
         <TextView
-            android:id="@+id/edit_class"
+            android:id="@+id/title_show"
             android:layout_marginTop="10dp"
+            android:layout_marginStart="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="@string/Edit_Class"
-            android:textStyle="bold"
+            android:layout_gravity="start"
             android:textColor="@color/colorPrimaryDark"
             android:textSize="20sp"
             />
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"
+            >
+
+            <TextView
+                android:id="@+id/class_show"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:text="@string/Edit_Class"
+                android:textColor="@color/colorPrimary"
+                android:textSize="14sp"
+                />
+
+            <TextView
+                android:id="@+id/date_show"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="@string/Edit_Date"
+                android:textColor="@color/colorPrimary"
+                android:textSize="14sp"
+                />
+
+        </LinearLayout>
+
         <View
             android:layout_height="1dp"
-            android:layout_marginStart="0dp"
+            android:layout_marginStart="10dp"
             android:layout_marginTop="15dp"
-            android:layout_gravity="center"
+            android:layout_gravity="start"
             android:background="#000000"
-            android:layout_width="40dp">
+            android:layout_width="200dp">
         </View>
 
-        <android.support.v7.widget.AppCompatSpinner
-            android:id="@+id/spinner"
-            android:layout_marginTop="15dp"
+        <TextView
+            android:id="@+id/content_show"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:spinnerMode="dialog"
-            android:popupTheme="@style/common_spinner"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-        </android.support.v7.widget.AppCompatSpinner>
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:gravity="start"
+            android:hint="@string/Edit_MainWord"
+            android:layout_marginTop="20dp"
+            android:lineSpacingMultiplier="1.5"
+            android:textColor="@color/colorPrimary"
+            android:textSize="14sp"
+            />
 
         <ImageView
             android:id="@+id/image_view"
             android:src="@drawable/zhutu001"
             android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="10dp"
-            android:scaleType="centerCrop"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
+            android:layout_marginTop="20dp"
             android:contentDescription="@string/app_name"/>
 
-        <View
-            android:layout_height="1dp"
-            android:layout_marginStart="0dp"
-            android:layout_marginTop="15dp"
-            android:layout_gravity="center"
-            android:background="#000000"
-            android:layout_width="40dp">
-        </View>
-
-        <EditText
-            android:id="@+id/title"
-            android:layout_marginTop="10dp"
+        <TextView
+            android:layout_marginTop="20dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:inputType="textCapWords"
             android:layout_gravity="center"
-            android:hint="@string/Edit_Title"
-            android:textColor="@color/colorPrimaryDark"
-            android:textSize="20sp"
+            android:layout_marginBottom="40dp"
+            android:textColor="@color/two_gray"
+            android:text="@string/beautiful_sentence"
+            android:textSize="10sp"
             />
-
-        <EditText
-            android:id="@+id/content"
-            android:layout_width="400dp"
-            android:layout_height="200dp"
-            android:inputType="textMultiLine"
-            android:layout_gravity="start"
-            android:gravity="start"
-            android:hint="@string/Edit_MainWord"
-            android:layout_marginTop="10dp"
-            android:textColor="@color/colorPrimaryDark"
-            android:textSize="14sp"
-            />
-
-        <Button
-            android:id="@+id/button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:text="@string/Edit_Btn_Name"
-            android:layout_gravity="center"
-            android:textColor="#FFFFFF"
-            android:background="@drawable/btn_selector"
-            />
-
 
     </LinearLayout>
 </ScrollView>

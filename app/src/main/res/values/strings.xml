@@ -1,6 +1,11 @@
 <resources>
     <string name="app_name">OneDay</string>
 
+    <string name="titlename">ONE DAY</string>
+
+    <string name="button_main_edit">EDIT</string>
+    <string name="button_main_share">SHARE</string>
+
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Your Name</string>
@@ -11,12 +16,15 @@
     <string name="modify">modify</string>
     <string name="delete">delete</string>
     <string name="submit_moment_warning">Title and content cannot be empty.</string>
-    <string name="the_days">YOU HAVE RECORDED</string>
-    <string name="the_sum">YOU HAVE RECORDED</string>
-    <string name="class_sum">RECORDS IN</string>
+
+    <string name="the_days">DAYS</string>
+    <string name="the_sum">RECORDS</string>
+    <string name="class_sum">CLASS</string>
+
     <string name="default_number">0</string>
-    <string name="days">days</string>
-    <string name="moments">moments</string>
+    <string name="oneday">ONE DAY</string>
+    <string name="days">&#160;DAY</string>
+    <string name="moments">&#160;REC</string>
     <string name="lunch">Lunch Time</string>
     <string name="travel">Travel Time</string>
     <string name="day_time">Day Time</string>
@@ -28,10 +36,19 @@
     <string-array name="category_array">
         <item>Lunch Time</item>
         <item>Travel Time</item>
-        <item>Day Time</item>
+        <item>Happy Time</item>
         <item>Work Time</item>
+        <item>Reading Time</item>
         <item>Party Time</item>
-        <item>Sport Time</item>
+    </string-array>
+    <string-array name="tablayout_array">
+        <item>ARCHIVE</item>
+        <item>Lunch TIME</item>
+        <item>Travel TIME</item>
+        <item>Happy TIME</item>
+        <item>Work TIME</item>
+        <item>Reading TIME</item>
+        <item>Party TIME</item>
     </string-array>
 
     <string name="take_photo">Take A Photo</string>
@@ -39,11 +56,21 @@
     <string name="remove">remove</string>
 
 
+    <string name="beautiful_sentence">-Remember The Time-</string>
+
     <string name="Edit_Date">07/09/2019</string>
-    <string name="Edit_Class">LUNCH TIME</string>
-    <string name="Edit_Title">NICE DAY</string>
+    <string name="Edit_Class">SET CLASS HERE</string>
+    <string name="Edit_Title">TYPE TITLE HERE</string>
     <string name="Edit_Btn_Name">APPLY</string>
-    <string name="Edit_MainWord">Keep Moving and Caring On</string>
+    <string name="Edit_MainWord">PLEASE INPUT WHAT YOU WANT TO RECORD HERE</string>
+
+    <string name="Tab_000">ARCHIVE</string>
+    <string name="Tab_001">LUNCH TIME</string>
+    <string name="Tab_002">TRAVEL TIME</string>
+    <string name="Tab_003">HAPPY TIME</string>
+    <string name="Tab_004">WORK TIME</string>
+    <string name="Tab_005">READING TIME</string>
+    <string name="Tab_006">PARTY TIME</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
