@@ -14,7 +14,7 @@
     <string name="nav_header_desc">Navigation header</string>
 
     <string name="action_settings">设置</string>
-    <string name="modify">编辑</string>
+    <string name="modify">查看</string>
     <string name="delete">删除</string>
     <string name="submit_moment_warning">请填充所有的部件</string>
 
@@ -24,8 +24,8 @@
 
     <string name="default_number">0</string>
     <string name="oneday">壹日</string>
-    <string name="days">&#160;天数</string>
-    <string name="moments">&#160;记录</string>
+    <string name="days">&#160;天</string>
+    <string name="moments">&#160;篇</string>
     <string name="lunch">食记</string>
     <string name="travel">行记</string>
     <string name="day_time">日记</string>
@@ -57,15 +57,15 @@
     <string name="remove">移除</string>
 
 
-    <string name="beautiful_sentence">-Remember The Time-</string>
+    <string name="beautiful_sentence">-请挽住似水年华不许流-</string>
 
     <string name="Edit_Date">07/09/2019</string>
-    <string name="Edit_Class">SET CLASS HERE</string>
-    <string name="Edit_Title">TYPE TITLE HERE</string>
-    <string name="Edit_Btn_Name">APPLY</string>
-    <string name="Edit_MainWord">PLEASE INPUT WHAT YOU WANT TO RECORD HERE</string>
+    <string name="Edit_Class">请选择你的类别</string>
+    <string name="Edit_Title">请输入标题</string>
+    <string name="Edit_Btn_Name">提交</string>
+    <string name="Edit_MainWord">请输入你的记录</string>
 
-    <string name="Tab_000">ARCHIVE</string>
+    <string name="Tab_000">存档</string>
     <string name="Tab_001">LUNCH TIME</string>
     <string name="Tab_002">TRAVEL TIME</string>
     <string name="Tab_003">HAPPY TIME</string>
@@ -73,6 +73,6 @@
     <string name="Tab_005">READING TIME</string>
     <string name="Tab_006">PARTY TIME</string>
 
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hello_blank_fragment">菜XK你好</string>
 
 </resources>

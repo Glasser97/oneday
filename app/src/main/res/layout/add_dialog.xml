@@ -12,6 +12,7 @@ android:orientation="vertical">
     android:layout_marginTop="16.5dp"
     android:gravity="center_horizontal"
     android:text="@string/take_photo"
+    android:fontFamily="@font/xiukai"
     android:textColor="#333333"
     android:textSize="18sp"/>
 <TextView
@@ -22,6 +23,7 @@ android:orientation="vertical">
     android:layout_marginBottom="16.5dp"
     android:gravity="center_horizontal"
     android:text="@string/open_album"
+    android:fontFamily="@font/xiukai"
     android:textColor="#333333"
     android:textSize="18sp"/>
 

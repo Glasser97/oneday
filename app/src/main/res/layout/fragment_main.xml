@@ -35,6 +35,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="@string/the_days"
+            android:fontFamily="@font/xiukai"
             android:textColor="@color/colorPrimaryDark"
             android:textSize="14sp">
         </TextView>
@@ -44,6 +45,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
+            android:fontFamily="@font/xiukai"
             android:text="@string/the_sum"
             android:textColor="@color/colorPrimaryDark"
             android:textSize="14sp">
@@ -55,6 +57,7 @@
             android:layout_height="match_parent"
             android:gravity="center"
             android:layout_weight="1"
+            android:fontFamily="@font/xiukai"
             android:text="@string/class_sum"
             android:textColor="@color/colorPrimaryDark"
             android:textSize="14sp">
@@ -71,6 +74,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
+
+            android:fontFamily="@font/xiukai"
             android:gravity="center"
             android:text="@string/default_number"
             android:textColor="@color/colorPrimaryDark"
@@ -81,6 +86,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
+            android:fontFamily="@font/xiukai"
             android:layout_weight="1"
             android:text="@string/default_number"
             android:textColor="@color/colorPrimaryDark"
@@ -91,6 +97,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
+            android:fontFamily="@font/xiukai"
             android:layout_weight="1"
             android:text="@string/default_number"
             android:textColor="@color/colorPrimaryDark"

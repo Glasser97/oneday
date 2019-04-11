@@ -28,6 +28,7 @@
 
                 <ImageView
                     android:contentDescription="@string/app_name"
+                    android:id="@+id/toolbar_image"
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
                     android:layout_gravity="center"
@@ -39,7 +40,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="@string/titlename"
+                    android:text="ONE DAY"
+                    android:fontFamily="@font/xiukai"
                     android:textColor="@color/colorPrimaryDark"
                     android:textSize="24sp" />
 
@@ -50,6 +52,7 @@
 
         <TextView
             android:id="@+id/edit_date"
+            android:fontFamily="@font/xiukai"
             android:layout_marginTop="20dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -62,6 +65,7 @@
 
         <TextView
             android:id="@+id/edit_class"
+            android:fontFamily="@font/xiukai"
             android:layout_marginTop="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -117,6 +121,7 @@
             android:layout_height="wrap_content"
             android:inputType="textCapWords"
             android:layout_gravity="center"
+            android:fontFamily="@font/xiukai"
             android:hint="@string/Edit_Title"
             android:textColor="@color/colorPrimaryDark"
             android:textSize="20sp"
@@ -129,8 +134,10 @@
             android:inputType="textMultiLine"
             android:layout_gravity="start"
             android:gravity="start"
+            android:fontFamily="@font/xiukai"
             android:hint="@string/Edit_MainWord"
             android:layout_marginTop="10dp"
+            android:scrollbars="vertical"
             android:textColor="@color/colorPrimaryDark"
             android:textSize="14sp"
             />
@@ -142,11 +149,11 @@
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             android:text="@string/Edit_Btn_Name"
+            android:fontFamily="@font/xiukai"
             android:layout_gravity="center"
             android:textColor="#FFFFFF"
             android:background="@drawable/btn_selector"
             />
-
 
     </LinearLayout>
 </ScrollView>
