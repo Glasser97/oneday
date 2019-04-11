@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity{
                 configuration.locale = Locale.SIMPLIFIED_CHINESE;
                 break;
             default:
-                configuration.locale = Locale.getDefault();
+                configuration.locale = Locale.ENGLISH;
                 break;
         }
         savePreferences(languageselect);
