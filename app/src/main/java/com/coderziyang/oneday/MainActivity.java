@@ -13,7 +13,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.ImageButton;
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -143,11 +142,14 @@ public class MainActivity extends AppCompatActivity{
 
         whichTime=0;
         myViewPager=(ViewPager) findViewById(R.id.myViewPager);
-        FragmentAdapter myFragmentAdapter=new FragmentAdapter(getSupportFragmentManager(),7,days);
+        FragmentAdapter myFragmentAdapter=new FragmentAdapter(
+                getSupportFragmentManager(),7,days);
         myViewPager.setAdapter(myFragmentAdapter);
         tablayout.setupWithViewPager(myViewPager);
         for (int i=0;i<7;i++){
-            tablayout.getTabAt(i).setText(getResources().getStringArray(R.array.tablayout_array)[i]);
+            tablayout.getTabAt(i)
+                    .setText(getResources()
+                            .getStringArray(R.array.tablayout_array)[i]);
         }
 
         //悬浮小圆球，跳转activity

@@ -1,6 +1,7 @@
 package com.coderziyang.oneday;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
@@ -9,6 +10,7 @@ import android.provider.MediaStore;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -20,17 +22,25 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.yalantis.ucrop.UCrop;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-
-import java.nio.channels.FileChannel;
 import java.text.SimpleDateFormat;
-
 import java.util.Date;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class AddMomentActivity extends AppCompatActivity implements addDialogFragment.OnDialogChosenListener{
 
@@ -44,10 +54,82 @@ public class AddMomentActivity extends AppCompatActivity implements addDialogFra
     EditText title, content;
     TextView big_title, edit_date;
     int category_index;
+    String token;
+    String jinrishici;
+    Token mToken;
+    OkHttpClient mOkHttpClient;
     Date date;
     int index;
 
+    public void savePreferences(String token) {
+        SharedPreferences pref = getSharedPreferences("token", MODE_PRIVATE);
+        pref.edit().putString("token", token).apply();
+    }
+    public void loadPreferences() {
+        SharedPreferences pref = getSharedPreferences("token", MODE_PRIVATE);
+        token=pref.getString("token", null);
+    }
 
+
+    @Override
+    protected  void onResume() {
+        super.onResume();
+        loadPreferences();
+        //网络获取token与每日一词相关
+        mOkHttpClient = new OkHttpClient();
+        if (token == null) {
+            Request request = new Request.Builder()
+                    .url("https://v2.jinrishici.com/token")
+                    .build();
+            Call call = mOkHttpClient.newCall(request);
+            //异步请求
+            call.enqueue(new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    Log.d("getToken", "Failure");
+                }
+
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    if (response.isSuccessful()) {
+                        String responseData = response.body().string();
+                        Gson gson = new Gson();
+                        mToken = gson.fromJson(responseData, Token.class);
+                        savePreferences(mToken.getData());
+                    }
+                }
+            });
+        } else {
+            Request request = new Request.Builder()
+                    .url("https://v2.jinrishici.com/sentence")
+                    .addHeader("X-User-Token", token)
+                    .build();
+            Call call = mOkHttpClient.newCall(request);
+            call.enqueue(new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    Log.d("response", "Failure to get sentence!!!");
+                }
+
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    if (response.isSuccessful()) {
+                        String responseData = response.body().string();
+                        try {
+                            JSONObject jsonObject=new JSONObject(responseData);
+                            JSONObject jsonData= jsonObject.getJSONObject("data");
+                            jinrishici=jsonData.getString("content");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                }
+            });
+
+
+        }
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,6 +168,9 @@ public class AddMomentActivity extends AppCompatActivity implements addDialogFra
                 @Override
                 public void onClick(View v){
                     String title_s = title.getText().toString();
+                    if (title_s.equals("")){
+                        title_s=jinrishici;
+                    }
                     String content_s = content.getText().toString();
                     if (title_s.equals("") || content_s.equals("") || imgUri == null) {
                         Toast.makeText(AddMomentActivity.this, R.string.submit_moment_warning,
@@ -125,8 +210,10 @@ public class AddMomentActivity extends AppCompatActivity implements addDialogFra
             submit_button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
                     String title_s = title.getText().toString();
+                    if (title_s.equals("")){
+                        title_s=jinrishici;
+                    }
                     String content_s = content.getText().toString();
 
                     if (title_s.equals("") || content_s.equals("") || imgUri == null) {
