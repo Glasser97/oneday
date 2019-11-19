@@ -8,7 +8,7 @@
 ![image_detail](ScreenApp/003.jpg)
 #### this is the show detail page.
 ![image_detail](ScreenApp/004.jpg)
-#### oneday also surports Chinese
+#### oneday also supports Chinese
 #### you can change it with one click.
 ![image_detail](ScreenApp/005.jpg)
 #### this is the Main page.
